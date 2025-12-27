@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 import en from './locales/en.json';
+import uz from './locales/uz.json';
 import vi from './locales/vi.json';
 import es from './locales/es.json';
 import fr from './locales/fr.json';
@@ -15,6 +16,7 @@ import ru from './locales/ru.json';
 
 const resources = {
   en: { translation: en },
+  uz: { translation: uz },
   vi: { translation: vi },
   es: { translation: es },
   fr: { translation: fr },
@@ -31,7 +33,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: 'en',
+    fallbackLng: 'uz',
     interpolation: {
       escapeValue: false,
     },

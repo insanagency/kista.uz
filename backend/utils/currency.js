@@ -25,24 +25,24 @@ export async function getExchangeRate(fromCurrency, toCurrency) {
 
     if (response.data.result === 'success') {
       const rate = response.data.conversion_rate;
-      
+
       // Cache it
       await cacheRate(fromCurrency, toCurrency, rate);
-      
+
       return rate;
     } else {
       throw new Error('Failed to fetch exchange rate');
     }
   } catch (error) {
     console.error('Error fetching exchange rate:', error.message);
-    
+
     // If API fails, try to use stale cache
     const staleCache = await getCachedRate(fromCurrency, toCurrency, false);
     if (staleCache) {
       console.log('Using stale cache due to API failure');
       return parseFloat(staleCache.rate);
     }
-    
+
     throw error;
   }
 }
@@ -71,7 +71,7 @@ export async function convertCurrency(amount, fromCurrency, toCurrency) {
   if (fromCurrency === toCurrency) {
     return amount;
   }
-  
+
   // Get exchange rate and convert
   const rate = await getExchangeRate(fromCurrency, toCurrency);
   return amount * rate;
@@ -81,6 +81,7 @@ export async function convertCurrency(amount, fromCurrency, toCurrency) {
 export function formatCurrency(amount, currency) {
   const symbols = {
     USD: '$',
+    UZS: 'so\'m',
     EUR: '€',
     GBP: '£',
     JPY: '¥',
@@ -112,18 +113,18 @@ export function formatCurrency(amount, currency) {
   };
 
   const symbol = symbols[currency] || currency + ' ';
-  
+
   // Currencies without decimal places
-  const noDecimalCurrencies = ['VND', 'JPY', 'KRW', 'IDR'];
-  
+  const noDecimalCurrencies = ['VND', 'JPY', 'KRW', 'IDR', 'UZS'];
+
   const formattedAmount = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: noDecimalCurrencies.includes(currency) ? 0 : 2,
     maximumFractionDigits: noDecimalCurrencies.includes(currency) ? 0 : 2
   }).format(amount);
 
   // Currencies that put symbol after amount
-  const symbolAfterCurrencies = ['VND', 'JPY', 'KRW', 'IDR', 'SEK', 'NOK', 'DKK', 'PLN'];
-  
+  const symbolAfterCurrencies = ['VND', 'JPY', 'KRW', 'IDR', 'SEK', 'NOK', 'DKK', 'PLN', 'UZS'];
+
   if (symbolAfterCurrencies.includes(currency)) {
     return `${formattedAmount} ${symbol}`;
   }
@@ -170,6 +171,7 @@ async function cacheRate(fromCurrency, toCurrency, rate) {
 
 // Popular currencies list
 export const POPULAR_CURRENCIES = [
+  { code: 'UZS', name: 'Uzbekistan Som', symbol: 'so\'m', flag: '🇺🇿' },
   { code: 'USD', name: 'US Dollar', symbol: '$', flag: '🇺🇸' },
   { code: 'EUR', name: 'Euro', symbol: '€', flag: '🇪🇺' },
   { code: 'VND', name: 'Vietnamese Dong', symbol: '₫', flag: '🇻🇳' },

@@ -4,7 +4,7 @@ import axios from 'axios';
 const CurrencyContext = createContext();
 
 export function CurrencyProvider({ children }) {
-  const [currency, setCurrency] = useState('USD');
+  const [currency, setCurrency] = useState('UZS');
   const [exchangeRates, setExchangeRates] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -22,7 +22,7 @@ export function CurrencyProvider({ children }) {
               headers: { Authorization: `Bearer ${token}` }
             }
           );
-          setCurrency(response.data.currency || 'USD');
+          setCurrency(response.data.currency || 'UZS');
         }
       } catch (error) {
         console.error('Error loading user currency:', error);
@@ -74,11 +74,11 @@ export function CurrencyProvider({ children }) {
   const convertAmount = (amount, fromCurrency = 'USD') => {
     if (!amount || amount === 0) return 0;
     if (fromCurrency === currency) return amount;
-    
+
     // exchangeRates contains rates from the base currency (set by API call)
     // When we call /currency/rates/USD, we get: { VND: 25000, EUR: 0.85, ... }
     // This means: 1 USD = 25000 VND, 1 USD = 0.85 EUR
-    
+
     if (fromCurrency === 'USD') {
       // Direct conversion from USD to target currency
       const rate = exchangeRates[currency] || 1;
@@ -100,6 +100,7 @@ export function CurrencyProvider({ children }) {
   const formatCurrency = (amount, currencyCode = currency) => {
     const symbols = {
       USD: '$',
+      UZS: 'so\'m',
       EUR: '€',
       GBP: '£',
       JPY: '¥',
@@ -131,10 +132,10 @@ export function CurrencyProvider({ children }) {
     };
 
     const symbol = symbols[currencyCode] || currencyCode + ' ';
-    
+
     // Currencies without decimal places
     const noDecimalCurrencies = ['VND', 'JPY', 'KRW', 'IDR'];
-    
+
     const formattedAmount = new Intl.NumberFormat('en-US', {
       minimumFractionDigits: noDecimalCurrencies.includes(currencyCode) ? 0 : 2,
       maximumFractionDigits: noDecimalCurrencies.includes(currencyCode) ? 0 : 2
@@ -142,7 +143,7 @@ export function CurrencyProvider({ children }) {
 
     // Currencies that put symbol after amount
     const symbolAfterCurrencies = ['VND', 'JPY', 'KRW', 'IDR', 'SEK', 'NOK', 'DKK', 'PLN'];
-    
+
     if (symbolAfterCurrencies.includes(currencyCode)) {
       return `${formattedAmount} ${symbol}`;
     }
