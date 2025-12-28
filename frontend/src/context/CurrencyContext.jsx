@@ -142,7 +142,7 @@ export function CurrencyProvider({ children }) {
     }).format(Math.abs(amount));
 
     // Currencies that put symbol after amount
-    const symbolAfterCurrencies = ['VND', 'JPY', 'KRW', 'IDR', 'SEK', 'NOK', 'DKK', 'PLN'];
+    const symbolAfterCurrencies = ['VND', 'JPY', 'KRW', 'IDR', 'SEK', 'NOK', 'DKK', 'PLN', 'UZS'];
 
     if (symbolAfterCurrencies.includes(currencyCode)) {
       return `${formattedAmount} ${symbol}`;
