@@ -62,8 +62,8 @@ router.post('/register',
       // Generate JWT with userId for consistency
       const token = jwt.sign(
         { userId: user.id, id: user.id, email: user.email, role: 'user' },
-        process.env.JWT_SECRET,
-        { expiresIn: process.env.JWT_EXPIRES_IN }
+        process.env.JWT_SECRET || 'kista_secret_key_2024',
+        { expiresIn: process.env.JWT_EXPIRES_IN || '30d' }
       );
 
       res.status(201).json({
