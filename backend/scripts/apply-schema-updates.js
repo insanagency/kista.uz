@@ -47,3 +47,11 @@ const applySchemaUpdates = async () => {
 };
 
 export default applySchemaUpdates;
+
+// Execute if run directly
+if (process.argv[1] === import.meta.filename) {
+    applySchemaUpdates();
+} else {
+    // Fallback for older node versions or different environments
+    applySchemaUpdates();
+}

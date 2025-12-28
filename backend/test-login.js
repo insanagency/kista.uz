@@ -7,7 +7,7 @@ const testLogin = async () => {
             email: 'debug_hdlm4@example.com',
             password: 'password123'
         });
-        console.log('Login Success:', res.data);
+        console.log('Login Success:', JSON.stringify(res.data, null, 2));
     } catch (error) {
         console.error('Login Error Status:', error.response?.status);
         console.error('Login Error Data:', error.response?.data);

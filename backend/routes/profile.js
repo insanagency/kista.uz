@@ -19,9 +19,9 @@ router.get('/', authenticateToken, async (req, res) => {
     }
 
     res.json(result.rows[0]);
-  } catch (error) {
-    console.error('Get profile error:', error);
-    res.status(500).json({ error: 'Failed to get profile' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: 'Failed to get profile: ' + err.message });
   }
 });
 
