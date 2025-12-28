@@ -50,8 +50,8 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
   const filteredCategories = categories.filter(cat => cat.type === formData.type);
 
   const CURRENCIES = [
-    { code: 'USD', name: 'US Dollar', symbol: '$' },
     { code: 'UZS', name: 'Uzbekistan Som', symbol: 'so\'m' },
+    { code: 'USD', name: 'US Dollar', symbol: '$' },
     { code: 'VND', name: 'Vietnamese Dong', symbol: '₫' },
     { code: 'EUR', name: 'Euro', symbol: '€' },
     { code: 'JPY', name: 'Japanese Yen', symbol: '¥' },
@@ -238,8 +238,8 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
                 type="button"
                 onClick={() => setFormData({ ...formData, type: 'income', category_id: '' })}
                 className={`py-2 px-4 rounded-lg font-medium transition-colors ${formData.type === 'income'
-                    ? 'bg-green-600 text-white'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  ? 'bg-green-600 text-white'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
               >
                 {t('transactions.income')}
@@ -248,8 +248,8 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
                 type="button"
                 onClick={() => setFormData({ ...formData, type: 'expense', category_id: '' })}
                 className={`py-2 px-4 rounded-lg font-medium transition-colors ${formData.type === 'expense'
-                    ? 'bg-red-600 text-white'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  ? 'bg-red-600 text-white'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
               >
                 {t('transactions.expense')}
@@ -287,7 +287,7 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
               >
                 {CURRENCIES.map(curr => (
                   <option key={curr.code} value={curr.code}>
-                    {curr.symbol} {curr.code}
+                    {curr.code === 'UZS' ? 'UZS' : `${curr.symbol} ${curr.code}`}
                   </option>
                 ))}
               </select>
