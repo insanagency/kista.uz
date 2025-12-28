@@ -126,13 +126,26 @@ if (process.env.PROCESS_RECURRING_ON_STARTUP === 'true') {
   });
 }
 
+import applySchemaUpdates from './scripts/apply-schema-updates.js';
+
 // Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📝 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🌐 CORS enabled for: ${process.env.FRONTEND_URL || '*'}`);
-  console.log(`⏰ Recurring transactions cron job scheduled (daily at 00:05)`);
-});
+const startServer = async () => {
+  try {
+    // Run schema updates
+    await applySchemaUpdates();
+
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+      console.log(`📝 Environment: ${process.env.NODE_ENV || 'development'}`);
+      console.log(`🌐 CORS enabled for: ${process.env.FRONTEND_URL || '*'}`);
+      console.log(`⏰ Recurring transactions cron job scheduled (daily at 00:05)`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+  }
+};
+
+startServer();
 
 export default app;
 
