@@ -58,3 +58,4 @@ coverage/
 
 # Personal development tracking (local only)
 DEVELOPMENT-LOG.md
+.vercel
