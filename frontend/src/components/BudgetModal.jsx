@@ -21,6 +21,7 @@ const BudgetModal = ({ month, year, budget = null, onClose }) => {
   const [quickAddName, setQuickAddName] = useState('');
 
   const CURRENCIES = [
+    { code: 'UZS', name: 'Uzbekistan Som', symbol: 'so\'m' },
     { code: 'USD', name: 'US Dollar', symbol: '$' },
     { code: 'VND', name: 'Vietnamese Dong', symbol: '₫' },
     { code: 'EUR', name: 'Euro', symbol: '€' },
@@ -101,7 +102,7 @@ const BudgetModal = ({ month, year, budget = null, onClose }) => {
     try {
       const COLORS = ['#EF4444', '#F59E0B', '#10B981', '#3B82F6', '#8B5CF6', '#EC4899'];
       const randomColor = COLORS[Math.floor(Math.random() * COLORS.length)];
-      
+
       const response = await api.post('/categories', {
         name: quickAddName,
         type: 'expense', // Budget chỉ cho expense categories
@@ -112,14 +113,14 @@ const BudgetModal = ({ month, year, budget = null, onClose }) => {
       // Add new category to list
       const newCategory = response.data;
       setCategories([...categories, newCategory]);
-      
+
       // Auto-select the new category
       setFormData({ ...formData, category_id: newCategory.id });
-      
+
       // Reset quick add
       setQuickAddName('');
       setShowQuickAdd(false);
-      
+
       toast.success(t('categories.categoryCreated'));
     } catch (error) {
       toast.error(t('categories.failedToCreate'));
@@ -180,7 +181,7 @@ const BudgetModal = ({ month, year, budget = null, onClose }) => {
                 {t('categories.addCategory')}
               </button>
             </label>
-            
+
             {showQuickAdd && (
               <div className="mb-3 p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg border border-blue-200 dark:border-blue-800">
                 <div className="flex gap-2">
@@ -205,7 +206,7 @@ const BudgetModal = ({ month, year, budget = null, onClose }) => {
                 </p>
               </div>
             )}
-            
+
             <select
               name="category_id"
               value={formData.category_id}
