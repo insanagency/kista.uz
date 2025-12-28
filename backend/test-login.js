@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const testLogin = async () => {
     try {
-        const res = await axios.post('http://localhost:5001/api/auth/login', {
+        const res = await axios.post('https://kista-backend-v2.onrender.com/api/auth/login', {
             email: 'debug_hdlm4@example.com',
             password: 'password123'
         });

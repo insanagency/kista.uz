@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Languages } from 'lucide-react';
 
 const LANGUAGES = [
+  { code: 'uz', name: 'O\'zbekcha', flag: '🇺🇿' },
   { code: 'en', name: 'English', flag: '🇺🇸' },
   { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' },
   { code: 'es', name: 'Español', flag: '🇪🇸' },
@@ -49,9 +50,8 @@ export default function LanguageSelector({ className = '' }) {
               <button
                 key={lang.code}
                 onClick={() => handleSelect(lang.code)}
-                className={`w-full flex items-center space-x-3 px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${
-                  lang.code === i18n.language ? 'bg-blue-50 dark:bg-blue-950/50 border-l-4 border-blue-600' : ''
-                }`}
+                className={`w-full flex items-center space-x-3 px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${lang.code === i18n.language ? 'bg-blue-50 dark:bg-blue-950/50 border-l-4 border-blue-600' : ''
+                  }`}
               >
                 <span className="text-2xl">{lang.flag}</span>
                 <div className="flex-1 text-left">

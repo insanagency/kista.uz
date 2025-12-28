@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useCurrency } from '../context/CurrencyContext';
 
 const CURRENCIES = [
+  { code: 'UZS', name: 'Uzbekistan Som', symbol: 'so\'m', flag: '🇺🇿' },
   { code: 'USD', name: 'US Dollar', symbol: '$', flag: '🇺🇸' },
   { code: 'EUR', name: 'Euro', symbol: '€', flag: '🇪🇺' },
   { code: 'VND', name: 'Vietnamese Dong', symbol: '₫', flag: '🇻🇳' },
@@ -44,11 +45,11 @@ export default function CurrencySelector({ className = '' }) {
   const handleSelect = async (currencyCode) => {
     try {
       await setCurrency(currencyCode);
-      
+
       // Invalidate all queries to refetch with new currency
       queryClient.invalidateQueries();
       console.log('🔄 Currency changed, invalidating all caches...');
-      
+
       setIsOpen(false);
     } catch (error) {
       console.error('Error changing currency:', error);
@@ -76,9 +77,8 @@ export default function CurrencySelector({ className = '' }) {
               <button
                 key={curr.code}
                 onClick={() => handleSelect(curr.code)}
-                className={`w-full flex items-center space-x-3 px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${
-                  curr.code === currency ? 'bg-blue-50 dark:bg-blue-950/50 border-l-4 border-blue-600' : ''
-                }`}
+                className={`w-full flex items-center space-x-3 px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${curr.code === currency ? 'bg-blue-50 dark:bg-blue-950/50 border-l-4 border-blue-600' : ''
+                  }`}
               >
                 <span className="text-2xl">{curr.flag}</span>
                 <div className="flex-1 text-left">

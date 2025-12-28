@@ -6,7 +6,7 @@ const testRegister = async () => {
         const uniqueId = Math.random().toString(36).substring(7);
         console.log(`Testing with email: debug_${uniqueId}@example.com`);
 
-        const res = await axios.post('http://localhost:5001/api/auth/register', {
+        const res = await axios.post('https://kista-backend-v2.onrender.com/api/auth/register', {
             full_name: 'Test Debugger',
             email: `debug_${uniqueId}@example.com`,
             password: 'password123'
