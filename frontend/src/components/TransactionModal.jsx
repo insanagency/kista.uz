@@ -32,10 +32,10 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
   useEffect(() => {
     if (transaction) {
       // Format date properly
-      const date = transaction.transaction_date ? 
-        format(new Date(transaction.transaction_date), 'yyyy-MM-dd') : 
+      const date = transaction.transaction_date ?
+        format(new Date(transaction.transaction_date), 'yyyy-MM-dd') :
         format(new Date(), 'yyyy-MM-dd');
-        
+
       setFormData({
         type: transaction.type,
         amount: transaction.amount,
@@ -48,9 +48,10 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
   }, [transaction]);
 
   const filteredCategories = categories.filter(cat => cat.type === formData.type);
-  
+
   const CURRENCIES = [
     { code: 'USD', name: 'US Dollar', symbol: '$' },
+    { code: 'UZS', name: 'Uzbekistan Som', symbol: 'so\'m' },
     { code: 'VND', name: 'Vietnamese Dong', symbol: '₫' },
     { code: 'EUR', name: 'Euro', symbol: '€' },
     { code: 'JPY', name: 'Japanese Yen', symbol: '¥' },
@@ -66,7 +67,7 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
   // Real-time validation
   const validateForm = () => {
     const errors = {};
-    
+
     const amount = parseFloat(formData.amount);
     if (!formData.amount) {
       errors.amount = t('transactions.amountRequired') || 'Amount is required';
@@ -75,23 +76,23 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
     } else if (amount > 999999999999.99) {
       errors.amount = t('transactions.amountTooLarge') || 'Amount too large';
     }
-    
+
     if (!formData.transaction_date) {
       errors.date = t('transactions.dateRequired') || 'Date is required';
     }
-    
+
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       toast.error('Please fix validation errors');
       return;
     }
-    
+
     setLoading(true);
 
     try {
@@ -115,7 +116,7 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
       } else {
         await api.post('/transactions', data);
         toast.success(t('transactions.transactionCreated'));
-        
+
         // If recurring is checked, create recurring transaction
         if (isRecurring) {
           try {
@@ -129,10 +130,10 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
               start_date: recurringData.startDate,
               end_date: recurringData.endDate || null
             };
-            
+
             await api.post('/recurring', recurringPayload);
             toast.success(t('recurring.recurringCreated'));
-            
+
             // Reload page to refresh both transactions and recurring list
             setTimeout(() => {
               window.location.reload();
@@ -150,10 +151,10 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
       console.error('❌ Transaction error:', error);
       console.error('❌ Response data:', error.response?.data);
       console.error('❌ Status:', error.response?.status);
-      
+
       // Show detailed error message
       let errorMessage = transaction ? t('transactions.failedToUpdate') : t('transactions.failedToCreate');
-      
+
       if (error.response?.data?.errors) {
         // Backend validation errors
         const errorDetails = error.response.data.errors.map(e => `${e.param}: ${e.msg}`).join(', ');
@@ -163,7 +164,7 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
         // Backend error message
         errorMessage = error.response.data.error;
       }
-      
+
       toast.error(errorMessage);
     } finally {
       setLoading(false);
@@ -189,7 +190,7 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
     try {
       const COLORS = ['#EF4444', '#F59E0B', '#10B981', '#3B82F6', '#8B5CF6', '#EC4899'];
       const randomColor = COLORS[Math.floor(Math.random() * COLORS.length)];
-      
+
       const response = await api.post('/categories', {
         name: quickAddName,
         type: formData.type,
@@ -200,14 +201,14 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
       // Add new category to list
       const newCategory = response.data;
       setCategories([...categories, newCategory]);
-      
+
       // Auto-select the new category
       setFormData({ ...formData, category_id: newCategory.id });
-      
+
       // Reset quick add
       setQuickAddName('');
       setShowQuickAdd(false);
-      
+
       toast.success(t('categories.categoryCreated'));
     } catch (error) {
       toast.error(t('categories.failedToCreate'));
@@ -236,22 +237,20 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
               <button
                 type="button"
                 onClick={() => setFormData({ ...formData, type: 'income', category_id: '' })}
-                className={`py-2 px-4 rounded-lg font-medium transition-colors ${
-                  formData.type === 'income'
+                className={`py-2 px-4 rounded-lg font-medium transition-colors ${formData.type === 'income'
                     ? 'bg-green-600 text-white'
                     : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                }`}
+                  }`}
               >
                 {t('transactions.income')}
               </button>
               <button
                 type="button"
                 onClick={() => setFormData({ ...formData, type: 'expense', category_id: '' })}
-                className={`py-2 px-4 rounded-lg font-medium transition-colors ${
-                  formData.type === 'expense'
+                className={`py-2 px-4 rounded-lg font-medium transition-colors ${formData.type === 'expense'
                     ? 'bg-red-600 text-white'
                     : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                }`}
+                  }`}
               >
                 {t('transactions.expense')}
               </button>
@@ -324,7 +323,7 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
                 {t('categories.addCategory')}
               </button>
             </label>
-            
+
             {showQuickAdd && (
               <div className="mb-3 p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg border border-blue-200 dark:border-blue-800">
                 <div className="flex gap-2">
@@ -349,7 +348,7 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
                 </p>
               </div>
             )}
-            
+
             <select
               name="category_id"
               value={formData.category_id}
@@ -404,7 +403,7 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
                     </label>
                     <select
                       value={recurringData.frequency}
-                      onChange={(e) => setRecurringData({...recurringData, frequency: e.target.value})}
+                      onChange={(e) => setRecurringData({ ...recurringData, frequency: e.target.value })}
                       className="input text-sm"
                     >
                       <option value="daily">{t('recurring.daily')}</option>
@@ -420,7 +419,7 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
                     <input
                       type="date"
                       value={recurringData.startDate}
-                      onChange={(e) => setRecurringData({...recurringData, startDate: e.target.value})}
+                      onChange={(e) => setRecurringData({ ...recurringData, startDate: e.target.value })}
                       className="input text-sm"
                     />
                   </div>

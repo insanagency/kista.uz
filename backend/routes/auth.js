@@ -42,14 +42,14 @@ router.post('/register',
       // Create default categories for new user
       const defaultCategories = [
         // Income categories
-        { name: 'Salary', type: 'income', icon: 'briefcase', color: '#10B981' },
-        { name: 'Other Income', type: 'income', icon: 'dollar-sign', color: '#06B6D4' },
+        { name: 'Maosh', type: 'income', icon: 'briefcase', color: '#10B981' },
+        { name: 'Boshqa daromadlar', type: 'income', icon: 'dollar-sign', color: '#06B6D4' },
         // Expense categories
-        { name: 'Food & Dining', type: 'expense', icon: 'utensils', color: '#EF4444' },
-        { name: 'Transportation', type: 'expense', icon: 'car', color: '#F59E0B' },
-        { name: 'Shopping', type: 'expense', icon: 'shopping-bag', color: '#EC4899' },
-        { name: 'Bills & Utilities', type: 'expense', icon: 'file-text', color: '#6366F1' },
-        { name: 'Other Expenses', type: 'expense', icon: 'more-horizontal', color: '#64748B' }
+        { name: 'Oziq-ovqat', type: 'expense', icon: 'utensils', color: '#EF4444' },
+        { name: 'Transport', type: 'expense', icon: 'car', color: '#F59E0B' },
+        { name: 'Xaridlar', type: 'expense', icon: 'shopping-bag', color: '#EC4899' },
+        { name: 'Kommunal to\'lovlar', type: 'expense', icon: 'file-text', color: '#6366F1' },
+        { name: 'Boshqa xarajatlar', type: 'expense', icon: 'more-horizontal', color: '#64748B' }
       ];
 
       for (const cat of defaultCategories) {

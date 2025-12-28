@@ -7,12 +7,12 @@ import { useCurrency } from '../context/CurrencyContext';
 
 const ICONS = ['🎯', '🏠', '🚗', '✈️', '💍', '📚', '💰', '🎓', '🏖️', '🎮', '📱', '⌚', '🎸', '🏋️', '🎨'];
 const PRIORITIES = ['low', 'medium', 'high'];
-const SUPPORTED_CURRENCIES = ['USD', 'EUR', 'GBP', 'JPY', 'CNY', 'KRW', 'VND', 'THB', 'SGD', 'MYR', 'IDR', 'PHP', 'INR', 'AUD', 'CAD'];
+const SUPPORTED_CURRENCIES = ['UZS', 'USD', 'EUR', 'GBP', 'JPY', 'CNY', 'KRW', 'VND', 'THB', 'SGD', 'MYR', 'IDR', 'PHP', 'INR', 'AUD', 'CAD'];
 
 const GoalModal = ({ goal, onClose }) => {
   const { t } = useTranslation();
   const { currency } = useCurrency();
-  
+
   const [formData, setFormData] = useState({
     name: goal?.name || '',
     target_amount: goal?.target_amount || '',
@@ -25,7 +25,7 @@ const GoalModal = ({ goal, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       // Clean up form data - convert empty strings to null
       const submitData = {
@@ -33,7 +33,7 @@ const GoalModal = ({ goal, onClose }) => {
         deadline: formData.deadline || null,
         category: formData.category || null,
       };
-      
+
       if (goal) {
         await api.put(`/goals/${goal.id}`, submitData);
         toast.success(t('goals.updateSuccess'));
@@ -44,7 +44,7 @@ const GoalModal = ({ goal, onClose }) => {
       onClose();
     } catch (error) {
       console.error('Goal submit error:', error.response?.data);
-      const errorMsg = error.response?.data?.errors 
+      const errorMsg = error.response?.data?.errors
         ? error.response.data.errors.map(e => e.msg).join(', ')
         : error.response?.data?.error || t('common.error');
       toast.error(errorMsg);
@@ -133,11 +133,10 @@ const GoalModal = ({ goal, onClose }) => {
                   key={icon}
                   type="button"
                   onClick={() => setFormData({ ...formData, icon })}
-                  className={`text-2xl p-2 rounded-lg border-2 transition-all ${
-                    formData.icon === icon
+                  className={`text-2xl p-2 rounded-lg border-2 transition-all ${formData.icon === icon
                       ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/20'
                       : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
-                  }`}
+                    }`}
                 >
                   {icon}
                 </button>
@@ -153,11 +152,10 @@ const GoalModal = ({ goal, onClose }) => {
                   key={priority}
                   type="button"
                   onClick={() => setFormData({ ...formData, priority })}
-                  className={`flex-1 px-4 py-2 rounded-lg border-2 transition-all ${
-                    formData.priority === priority
+                  className={`flex-1 px-4 py-2 rounded-lg border-2 transition-all ${formData.priority === priority
                       ? 'border-blue-600 bg-blue-600 text-white'
                       : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
-                  }`}
+                    }`}
                 >
                   {t(`goals.priority.${priority}`)}
                 </button>

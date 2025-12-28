@@ -43,7 +43,15 @@ export async function getExchangeRate(fromCurrency, toCurrency) {
       return parseFloat(staleCache.rate);
     }
 
-    throw error;
+    // Check if we have a reverse rate in cache (e.g. asking for USD/UZS but have UZS/USD)
+    const reverseCache = await getCachedRate(toCurrency, fromCurrency, false);
+    if (reverseCache) {
+      console.log('Using reverse cache');
+      return 1 / parseFloat(reverseCache.rate);
+    }
+
+    console.warn(`Could not fetch rate for ${fromCurrency}/${toCurrency}, using 1.0 as fallback`);
+    return 1.0;
   }
 }
 

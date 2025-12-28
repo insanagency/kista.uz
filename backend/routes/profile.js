@@ -133,7 +133,7 @@ router.put('/change-password',
         [hashedPassword, 'local', req.user.userId]
       );
 
-      res.json({ 
+      res.json({
         message: 'Password changed successfully',
         note: isOAuthUser ? 'You can now login with email and password' : null
       });
