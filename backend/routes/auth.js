@@ -115,7 +115,7 @@ router.post('/login',
       // Generate JWT with userId and role for middleware
       const token = jwt.sign(
         { userId: user.id, id: user.id, email: user.email, role: user.role || 'user' },
-        process.env.JWT_SECRET,
+        process.env.JWT_SECRET || 'kista_secret_key_2024',
         { expiresIn: process.env.JWT_EXPIRES_IN }
       );
 
