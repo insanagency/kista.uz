@@ -2,7 +2,8 @@
     "app": {
         "name": "AuroraLedger",
         "tagline": "Moliyangizni oson boshqaring",
-        "description": "Zamonaviy shaxsiy moliyani boshqarish tizimi"
+        "description": "Zamonaviy shaxsiy moliyani boshqarish tizimi",
+        "financeManager": "Moliya Menejeri"
     },
     "nav": {
         "dashboard": "Bosh sahifa",
@@ -16,7 +17,9 @@
         "family": "Oila",
         "profile": "Profil",
         "logout": "Chiqish",
-        "admin": "Admin"
+        "admin": "Admin",
+        "overview": "Umumiy",
+        "management": "Boshqaruv"
     },
     "auth": {
         "login": "Kirish",

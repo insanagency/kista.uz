@@ -58,7 +58,7 @@ const Layout = () => {
             <h1 className="text-lg font-bold tracking-tight leading-none">
               {t('app.name')}
             </h1>
-            <p className="text-xs text-muted-foreground mt-0.5">Finance Manager</p>
+            <p className="text-xs text-muted-foreground mt-0.5">{t('app.financeManager')}</p>
           </div>
         </div>
       </div>
