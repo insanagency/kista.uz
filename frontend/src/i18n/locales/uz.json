@@ -74,6 +74,8 @@
         "greeting": "Xush kelibsiz,",
         "thisMonth": "Shu oy",
         "last30Days": "So'nggi 30 kun",
+        "lastMonth": "O'tgan oy",
+        "fromLastMonth": "o'tgan oydan beri",
         "allTime": "Barcha vaqtlar",
         "weeklyIncome": "Haftalik daromad",
         "weeklyExpense": "Haftalik xarajat",
@@ -262,7 +264,10 @@
         "relogin": "Qayta kirish",
         "saving": "Saqlanmoqda...",
         "checkInput": "Iltimos, ma'lumotlarni tekshiring",
-        "fillAllFields": "Iltimos, barcha majburiy maydonlarni to'ldiring"
+        "fillAllFields": "Iltimos, barcha majburiy maydonlarni to'ldiring",
+        "selectCategory": "Kategoriyani tanlang",
+        "export": "Eksport",
+        "close": "Yopish"
     },
     "recurring": {
         "title": "Doimiy takrorlanuvchi to'lovlar",
@@ -354,6 +359,8 @@
         "fullNamePlaceholder": "To'liq ismingizni kiriting",
         "email": "Email manzil",
         "emailPlaceholder": "Emailingizni kiriting",
+        "updateDetailsDescription": "Shaxsiy ma'lumotlaringizni yangilang",
+        "secureAccountDescription": "Kuchli parol bilan hisobingiz xavfsizligini ta'minlang",
         "updateProfile": "Profilni yangilash",
         "updating": "Yangilanmoqda...",
         "changePassword": "Parolni o'zgartirish",

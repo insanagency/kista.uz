@@ -184,7 +184,7 @@ const Profile = () => {
               {t('profile.personalInfo') || 'Personal Information'}
             </CardTitle>
             <CardDescription>
-              Update your personal details.
+              {t('profile.updateDetailsDescription')}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -239,7 +239,7 @@ const Profile = () => {
               {t('profile.changePassword') || 'Change Password'}
             </CardTitle>
             <CardDescription>
-              Ensure your account is secure with a strong password.
+              {t('profile.secureAccountDescription')}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -247,7 +247,7 @@ const Profile = () => {
               {/* Show info for OAuth users */}
               {user?.oauth_provider && user.oauth_provider !== 'local' && (
                 <div className="p-3 bg-muted rounded-md text-sm text-muted-foreground flex items-center gap-2 border">
-                  ℹ️ {t('profile.oauthPasswordInfo') || 'You logged in with Google. You can set a password below to also login with email.'}
+                  ℹ️ {t('profile.oauthPasswordInfo')}
                 </div>
               )}
 
