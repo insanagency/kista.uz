@@ -58,6 +58,8 @@
         "noTransactions": "Hozircha o'tkazmalar yo'q",
         "viewAll": "Hammasini ko'rish",
         "failedToLoad": "Bosh sahifa ma'lumotlarini yuklashda xatolik",
+        "overview": "{{date}} holatiga ko'ra moliyaviy hisobotingiz",
+        "greeting": "Xush kelibsiz,",
         "thisMonth": "Shu oy",
         "last30Days": "So'nggi 30 kun",
         "allTime": "Barcha vaqtlar",
@@ -145,7 +147,11 @@
         "cancel": "Bekor qilish",
         "create": "Yaratish",
         "update": "Yangilash",
-        "saving": "Saqlanmoqda..."
+        "saving": "Saqlanmoqda...",
+        "other_income": "Boshqa daromadlar",
+        "uncategorized": "Kategoriyasiz",
+        "uncategorized_income": "Boshqa daromadlar",
+        "uncategorized_expense": "Boshqa xarajatlar"
     },
     "budgets": {
         "title": "Byudjetlar",
@@ -508,6 +514,7 @@
         "patterns": "Andozalar",
         "loading": "Analitika yuklanmoqda...",
         "noData": "Ma'lumot yo'q",
+        "anomaliesDescription": "Xarajatlaringizdagi noodatiy o'zgarishlarni aniqlaymiz",
         "spendingAnomalies": "Xarajat anomaliyalari",
         "totalAnomalies": "Jami anomaliyalar",
         "totalTransactions": "Jami o'tkazmalar",

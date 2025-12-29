@@ -131,7 +131,11 @@ const Layout = () => {
             <p className="text-sm font-medium leading-none truncate">{user?.full_name}</p>
             <p className="text-xs text-muted-foreground mt-1 truncate">{user?.email}</p>
           </div>
-          <ThemeToggle />
+          <div className="flex items-center gap-1">
+            <LanguageSelector />
+            <CurrencySelector />
+            <ThemeToggle />
+          </div>
         </div>
 
         <div className="grid grid-cols-2 gap-2">
