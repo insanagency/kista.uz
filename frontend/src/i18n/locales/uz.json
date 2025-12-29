@@ -429,6 +429,7 @@
         "inviteMember": "Taklif qilish",
         "familyName": "Oila nomi",
         "familyDescription": "Tavsif",
+        "descriptionPlaceholder": "Oilangiz haqida qisqacha",
         "members": "A'zolar",
         "roles": {
             "head": "Boshliq",

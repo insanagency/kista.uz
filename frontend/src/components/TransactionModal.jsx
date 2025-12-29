@@ -183,7 +183,7 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4 py-4">
+        <form onSubmit={handleSubmit} className="grid gap-4 py-4">
           <div className="grid grid-cols-2 gap-4">
             <Button
               type="button"
@@ -235,8 +235,6 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
             </div>
           </div>
 
-
-
           <div className="space-y-2">
             <Label>{t('transactions.date')}</Label>
             <DatePicker
@@ -246,7 +244,7 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
           </div>
 
           <div className="space-y-2">
-            <div className="flex justify-between">
+            <div className="flex items-center justify-between">
               <Label>{t('transactions.category')}</Label>
               <Button
                 type="button"
