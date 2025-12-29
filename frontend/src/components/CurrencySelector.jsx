@@ -66,7 +66,7 @@ export default function CurrencySelector({ className = '' }) {
   return (
     <Select value={currency} onValueChange={handleSelect}>
       <SelectTrigger className={`w-full ${className}`}>
-        <SelectValue placeholder="Select currency">
+        <SelectValue placeholder="Currency">
           <span className="flex items-center gap-2">
             <span className="text-lg">{selectedCurrency.flag}</span>
             <span>{selectedCurrency.code}</span>
