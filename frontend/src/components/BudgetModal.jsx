@@ -1,16 +1,35 @@
+
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCurrency } from '../context/CurrencyContext';
-import { X, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import api from '../lib/api';
 import toast from 'react-hot-toast';
+
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const BudgetModal = ({ month, year, budget = null, onClose }) => {
   const { t } = useTranslation();
   const { currency: userCurrency } = useCurrency();
   const [categories, setCategories] = useState([]);
   const [formData, setFormData] = useState({
-    category_id: budget?.category_id || '',
+    category_id: budget?.category_id ? String(budget.category_id) : '',
     amount: budget?.amount || '',
     currency: budget?.currency || userCurrency || 'USD',
     month: month,
@@ -39,12 +58,11 @@ const BudgetModal = ({ month, year, budget = null, onClose }) => {
     fetchCategories();
   }, []);
 
-  // Update currency when user changes it in sidebar
   useEffect(() => {
-    if (userCurrency) {
+    if (userCurrency && !budget) {
       setFormData(prev => ({ ...prev, currency: userCurrency }));
     }
-  }, [userCurrency]);
+  }, [userCurrency, budget]);
 
   const fetchCategories = async () => {
     try {
@@ -63,34 +81,25 @@ const BudgetModal = ({ month, year, budget = null, onClose }) => {
       const data = {
         category_id: parseInt(formData.category_id),
         amount: parseFloat(formData.amount),
-        input_currency: formData.currency, // Currency user chose for input
+        input_currency: formData.currency,
         month: formData.month,
         year: formData.year
       };
 
-      console.log('💰 Creating budget with data:', data);
-
       if (budget) {
-        // Update existing budget
         await api.put(`/budgets/${budget.id}`, data);
         toast.success(t('budgets.budgetUpdated'));
       } else {
-        // Create new budget
         await api.post('/budgets', data);
         toast.success(t('budgets.budgetSet'));
       }
       onClose();
     } catch (error) {
-      console.error('❌ Budget operation error:', error);
-      console.error('❌ Response:', error.response?.data);
+      console.error('Budget operation error:', error);
       toast.error(error.response?.data?.error || t('budgets.failedToSet'));
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleQuickAddCategory = async () => {
@@ -98,196 +107,151 @@ const BudgetModal = ({ month, year, budget = null, onClose }) => {
       toast.error(t('categories.name') + ' is required');
       return;
     }
-
     try {
       const COLORS = ['#EF4444', '#F59E0B', '#10B981', '#3B82F6', '#8B5CF6', '#EC4899'];
       const randomColor = COLORS[Math.floor(Math.random() * COLORS.length)];
-
       const response = await api.post('/categories', {
         name: quickAddName,
-        type: 'expense', // Budget chỉ cho expense categories
+        type: 'expense',
         color: randomColor,
         icon: 'folder'
       });
-
-      // Add new category to list
       const newCategory = response.data;
       setCategories([...categories, newCategory]);
-
-      // Auto-select the new category
-      setFormData({ ...formData, category_id: newCategory.id });
-
-      // Reset quick add
+      setFormData({ ...formData, category_id: String(newCategory.id) });
       setQuickAddName('');
       setShowQuickAdd(false);
-
       toast.success(t('categories.categoryCreated'));
     } catch (error) {
       toast.error(t('categories.failedToCreate'));
-      console.error(error);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full p-4 sm:p-6 max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between mb-4 sm:mb-6">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white">
+    <Dialog open={true} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>
             {budget ? t('budgets.editBudget') : t('budgets.setBudget')}
-          </h2>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors" title="Close">
-            <X size={20} className="text-gray-600 dark:text-gray-400" />
-          </button>
-        </div>
+          </DialogTitle>
+        </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Month/Year Selector */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              📅 {t('budgets.monthYear') || 'Month & Year'}
-            </label>
-            <input
-              type="month"
-              value={`${formData.year}-${String(formData.month).padStart(2, '0')}`}
-              onChange={(e) => {
-                if (e.target.value) {
-                  const [year, month] = e.target.value.split('-');
-                  setFormData({
-                    ...formData,
-                    year: parseInt(year),
-                    month: parseInt(month)
-                  });
-                }
-              }}
-              className="input text-sm cursor-pointer"
-              min="2000-01"
-              max="2100-12"
-              required
-            />
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+        <form onSubmit={handleSubmit} className="space-y-4 py-4">
+          <div className="space-y-2">
+            <Label>{t('budgets.monthYear') || 'Month & Year'}</Label>
+            <div className="flex gap-2">
+              <Input
+                type="month"
+                value={`${formData.year}-${String(formData.month).padStart(2, '0')}`}
+                onChange={(e) => {
+                  if (e.target.value) {
+                    const [year, month] = e.target.value.split('-');
+                    setFormData({
+                      ...formData,
+                      year: parseInt(year),
+                      month: parseInt(month)
+                    });
+                  }
+                }}
+              />
+            </div>
+            <p className="text-xs text-muted-foreground">
               {t('budgets.selectMonthYear') || 'Select month and year for this budget'}
             </p>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 flex items-center justify-between">
-              <span>{t('transactions.category')}</span>
-              <button
+          <div className="space-y-2">
+            <div className="flex justify-between">
+              <Label>{t('transactions.category')}</Label>
+              <Button
                 type="button"
+                variant="link"
+                className="h-auto p-0 text-xs flex items-center gap-1"
                 onClick={() => setShowQuickAdd(!showQuickAdd)}
-                className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center gap-1"
               >
-                <Plus size={14} />
-                {t('categories.addCategory')}
-              </button>
-            </label>
+                <Plus size={14} /> {t('categories.addCategory')}
+              </Button>
+            </div>
 
             {showQuickAdd && (
-              <div className="mb-3 p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg border border-blue-200 dark:border-blue-800">
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={quickAddName}
-                    onChange={(e) => setQuickAddName(e.target.value)}
-                    className="input flex-1"
-                    placeholder={t('categories.categoryName')}
-                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleQuickAddCategory())}
-                  />
-                  <button
-                    type="button"
-                    onClick={handleQuickAddCategory}
-                    className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
-                  >
-                    {t('common.save') || 'Save'}
-                  </button>
-                </div>
-                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                  💡 Quick add expense category with random color
-                </p>
+              <div className="flex gap-2 p-2 bg-muted rounded-md mb-2">
+                <Input
+                  value={quickAddName}
+                  onChange={(e) => setQuickAddName(e.target.value)}
+                  placeholder={t('categories.categoryName')}
+                  className="h-8 text-sm"
+                />
+                <Button size="sm" type="button" onClick={handleQuickAddCategory}>
+                  {t('common.save')}
+                </Button>
               </div>
             )}
 
-            <select
-              name="category_id"
+            <Select
               value={formData.category_id}
-              onChange={handleChange}
-              className="input"
-              required
+              onValueChange={(val) => setFormData({ ...formData, category_id: val })}
             >
-              <option value="">{t('budgets.selectCategory')}</option>
-              {categories.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.name}
-                </option>
-              ))}
-            </select>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              <SelectTrigger>
+                <SelectValue placeholder={t('budgets.selectCategory')} />
+              </SelectTrigger>
+              <SelectContent>
+                {categories.map((cat) => (
+                  <SelectItem key={cat.id} value={String(cat.id)}>
+                    {cat.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-muted-foreground">
               {t('budgets.onlyExpenseCategories')}
             </p>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              {t('budgets.budgetAmount')}
-            </label>
-            <input
-              type="number"
-              name="amount"
-              value={formData.amount}
-              onChange={handleChange}
-              step="any"
-              min="0.01"
-              max="999999999999.99"
-              className="input"
-              required
-              placeholder="0.00"
-            />
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{t('budgets.maxAmount')}</p>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label>{t('budgets.budgetAmount')}</Label>
+              <Input
+                type="number"
+                step="any"
+                required
+                value={formData.amount}
+                onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+                placeholder="0.00"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>{t('common.currency')}</Label>
+              <Select
+                value={formData.currency}
+                onValueChange={(val) => setFormData({ ...formData, currency: val })}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {CURRENCIES.map(curr => (
+                    <SelectItem key={curr.code} value={curr.code}>
+                      {curr.code}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
+          <p className="text-xs text-muted-foreground -mt-2">{t('budgets.inputCurrencyNote')}</p>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              {t('common.currency')}
-            </label>
-            <select
-              name="currency"
-              value={formData.currency}
-              onChange={handleChange}
-              className="input"
-              required
-            >
-              {CURRENCIES.map((curr) => (
-                <option key={curr.code} value={curr.code}>
-                  {curr.symbol} {curr.name} ({curr.code})
-                </option>
-              ))}
-            </select>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-              💱 {t('budgets.inputCurrencyNote')}
-            </p>
-          </div>
-
-          <div className="flex gap-3 pt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="btn btn-secondary flex-1"
-            >
+          <DialogFooter className="gap-2 sm:justify-end">
+            <Button type="button" variant="outline" onClick={onClose}>
               {t('budgets.cancel')}
-            </button>
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn btn-primary flex-1"
-            >
+            </Button>
+            <Button type="submit" disabled={loading}>
               {loading ? t('categories.saving') : t('budgets.setBudget')}
-            </button>
-          </div>
+            </Button>
+          </DialogFooter>
         </form>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 
 export default BudgetModal;
-

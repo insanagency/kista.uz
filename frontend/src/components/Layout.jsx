@@ -1,131 +1,205 @@
+
 import { useState } from 'react';
-import { Outlet, NavLink } from 'react-router-dom';
+import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import CurrencySelector from './CurrencySelector';
 import LanguageSelector from './LanguageSelector';
 import ThemeToggle from './ThemeToggle';
-import { 
-  LayoutDashboard, 
-  ArrowLeftRight, 
-  Repeat,
+import {
+  LayoutDashboard,
+  ArrowLeftRight,
   Target,
-  FolderKanban, 
-  Wallet, 
+  FolderKanban,
+  Wallet,
   BarChart3,
   TrendingUp,
   Users,
   User,
-  Shield,
   LogOut,
   Menu,
-  X
 } from 'lucide-react';
+
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
 
 const Layout = () => {
   const { user, logout } = useAuth();
   const { t } = useTranslation();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const [open, setOpen] = useState(false);
 
+  // Standardized Nav Items with grouping logic could be added here
   const navItems = [
     { to: '/dashboard', icon: LayoutDashboard, label: t('nav.dashboard') },
     { to: '/transactions', icon: ArrowLeftRight, label: t('nav.transactions') },
-    { to: '/goals', icon: Target, label: t('nav.goals') },
-    { to: '/categories', icon: FolderKanban, label: t('nav.categories') },
-    { to: '/budgets', icon: Wallet, label: t('nav.budgets') },
-    { to: '/reports', icon: BarChart3, label: t('nav.reports') },
     { to: '/analytics', icon: TrendingUp, label: t('nav.analytics') },
-    { to: '/family', icon: Users, label: t('nav.family') },
-    { to: '/profile', icon: User, label: t('nav.profile') },
+    { to: '/reports', icon: BarChart3, label: t('nav.reports') },
   ];
 
-  return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-200">
-      {/* Mobile Header */}
-      <header className="lg:hidden fixed top-0 left-0 right-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 z-30 px-4 py-3 shadow-sm">
-        <div className="flex items-center justify-between">
-          <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            {t('app.name')}
-          </h1>
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors text-gray-700 dark:text-gray-200"
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </header>
+  const managementItems = [
+    { to: '/budgets', icon: Wallet, label: t('nav.budgets') },
+    { to: '/goals', icon: Target, label: t('nav.goals') },
+    { to: '/categories', icon: FolderKanban, label: t('nav.categories') },
+    { to: '/family', icon: Users, label: t('nav.family') },
+  ];
 
-      {/* Sidebar - Desktop & Mobile */}
-      <aside className={`
-        fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-900 shadow-lg border-r border-gray-200 dark:border-gray-800 z-20 transition-all duration-300
-        lg:translate-x-0
-        ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
-      `}>
-        <div className="p-4 lg:p-6 border-b border-gray-200 dark:border-gray-800 mt-14 lg:mt-0">
-          <h1 className="hidden lg:block text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">
-            {t('app.name')}
-          </h1>
-          <div className="mb-4">
-            <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">{user?.full_name || 'User'}</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user?.email}</p>
+  const SidebarContent = () => (
+    <div className="flex h-full flex-col bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60 border-r">
+      {/* Brand Header */}
+      <div className="p-6 pb-2">
+        <div className="flex items-center gap-3">
+          <div className="h-9 w-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold shadow-sm">
+            A
           </div>
-          <div className="space-y-2">
-            <CurrencySelector />
-            <LanguageSelector />
-            <ThemeToggle />
+          <div>
+            <h1 className="text-lg font-bold tracking-tight leading-none">
+              {t('app.name')}
+            </h1>
+            <p className="text-xs text-muted-foreground mt-0.5">Finance Manager</p>
           </div>
         </div>
+      </div>
 
-        <nav className="p-4 pb-16 overflow-y-scroll sidebar-scroll" style={{ maxHeight: 'calc(100vh - 320px)', minHeight: '300px' }}>
-          {navItems.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className={({ isActive }) =>
-                `flex items-center gap-3 px-4 py-3 rounded-lg mb-1.5 transition-all duration-200 ${
-                  isActive
-                    ? 'bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 shadow-sm border border-blue-100 dark:border-blue-900/50'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100'
-                }`
-              }
-            >
-              <item.icon size={20} />
-              <span className="font-medium">{item.label}</span>
+      <ScrollArea className="flex-1 px-4 py-6">
+        <div className="space-y-6">
+          {/* Main Group */}
+          <div>
+            <h3 className="mb-2 px-2 text-xs font-medium text-muted-foreground/70 uppercase tracking-wider">
+              {t('nav.overview', 'Overview')}
+            </h3>
+            <div className="space-y-1">
+              {navItems.map((item) => (
+                <Button
+                  key={item.to}
+                  variant={location.pathname === item.to ? "secondary" : "ghost"}
+                  className={cn(
+                    "w-full justify-start gap-3 font-medium h-9",
+                    location.pathname === item.to
+                      ? "bg-primary/10 text-primary hover:bg-primary/20"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                  )}
+                  asChild
+                >
+                  <NavLink to={item.to} onClick={() => setOpen(false)}>
+                    <item.icon size={18} />
+                    <span>{item.label}</span>
+                  </NavLink>
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          {/* Management Group */}
+          <div>
+            <h3 className="mb-2 px-2 text-xs font-medium text-muted-foreground/70 uppercase tracking-wider">
+              {t('nav.management', 'Management')}
+            </h3>
+            <div className="space-y-1">
+              {managementItems.map((item) => (
+                <Button
+                  key={item.to}
+                  variant={location.pathname === item.to ? "secondary" : "ghost"}
+                  className={cn(
+                    "w-full justify-start gap-3 font-medium h-9",
+                    location.pathname === item.to
+                      ? "bg-primary/10 text-primary hover:bg-primary/20"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                  )}
+                  asChild
+                >
+                  <NavLink to={item.to} onClick={() => setOpen(false)}>
+                    <item.icon size={18} />
+                    <span>{item.label}</span>
+                  </NavLink>
+                </Button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </ScrollArea>
+
+      {/* User Footer */}
+      <div className="p-4 border-t bg-muted/20">
+        <div className="flex items-center gap-3 mb-4 px-2">
+          <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold shadow-sm border border-primary/20">
+            {user?.full_name?.charAt(0) || 'U'}
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium leading-none truncate">{user?.full_name}</p>
+            <p className="text-xs text-muted-foreground mt-1 truncate">{user?.email}</p>
+          </div>
+          <ThemeToggle />
+        </div>
+
+        <div className="grid grid-cols-2 gap-2">
+          {/* Profile Link */}
+          <Button variant="outline" size="sm" className="w-full justify-start gap-2 h-8 text-xs" asChild>
+            <NavLink to="/profile" onClick={() => setOpen(false)}>
+              <User size={14} />
+              {t('nav.profile')}
             </NavLink>
-          ))}
-        </nav>
+          </Button>
 
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
-          <button
+          {/* Logout */}
+          <Button
+            variant="ghost"
+            size="sm"
+            className="w-full justify-start gap-2 h-8 text-xs text-destructive hover:text-destructive hover:bg-destructive/10"
             onClick={() => {
               logout();
-              setIsMobileMenuOpen(false);
+              setOpen(false);
             }}
-            className="flex items-center gap-3 px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/50 rounded-lg w-full transition-all duration-200"
           >
-            <LogOut size={20} />
-            <span className="font-medium">{t('nav.logout')}</span>
-          </button>
+            <LogOut size={14} />
+            {t('nav.logout')}
+          </Button>
         </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-muted/30 font-sans antialiased">
+      {/* Mobile Header */}
+      <header className="lg:hidden fixed top-0 left-0 right-0 bg-background/80 backdrop-blur-md border-b z-30 px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="h-8 w-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold">
+            A
+          </div>
+          <h1 className="text-lg font-bold tracking-tight">
+            {t('app.name')}
+          </h1>
+        </div>
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <Menu className="h-5 w-5" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="p-0 w-72 border-r">
+            <SidebarContent />
+          </SheetContent>
+        </Sheet>
+      </header>
+
+      {/* Desktop Sidebar */}
+      <aside className="hidden lg:block fixed left-0 top-0 h-full w-64 z-20">
+        <SidebarContent />
       </aside>
 
-      {/* Mobile Overlay */}
-      {isMobileMenuOpen && (
-        <div 
-          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-10 backdrop-blur-sm"
-          onClick={() => setIsMobileMenuOpen(false)}
-        />
-      )}
-
       {/* Main Content */}
-      <main className="lg:ml-64 p-4 sm:p-6 lg:p-8 pt-20 lg:pt-8 min-h-screen">
-        <Outlet />
+      <main className="lg:ml-64 min-h-screen pt-16 lg:pt-0 pb-10 transition-all duration-200">
+        <div className="px-6 py-6 lg:px-10 lg:py-8 max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <Outlet />
+        </div>
       </main>
     </div>
   );
 };
 
 export default Layout;
+
 

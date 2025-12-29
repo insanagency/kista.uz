@@ -38,6 +38,17 @@ const applySchemaUpdates = async () => {
             console.error('⚠️ Failed to alter users table:', e.message);
         }
 
+        // 4. Add oauth_provider to users table
+        try {
+            await client.query(`
+        ALTER TABLE users 
+        ADD COLUMN IF NOT EXISTS oauth_provider VARCHAR(20) DEFAULT 'local'
+      `);
+            console.log('✅ Users table checked/updated for oauth_provider column');
+        } catch (e) {
+            console.error('⚠️ Failed to alter users table:', e.message);
+        }
+
         console.log('✅ All schema updates completed');
     } catch (error) {
         console.error('❌ Schema update wrapper failed:', error);

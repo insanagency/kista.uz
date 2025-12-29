@@ -1,8 +1,20 @@
+
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X } from 'lucide-react';
+import { X, Check } from 'lucide-react';
 import api from '../lib/api';
 import toast from 'react-hot-toast';
+
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog"
 
 const COLORS = [
   '#EF4444', '#F59E0B', '#10B981', '#3B82F6', '#8B5CF6',
@@ -54,121 +66,84 @@ const CategoryModal = ({ category, onClose }) => {
     }
   };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-md w-full p-4 sm:p-6 max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between mb-4 sm:mb-6">
-          <h2 className="text-xl sm:text-2xl font-bold">
+    <Dialog open={true} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>
             {category ? t('categories.editCategory') : t('categories.addCategory')}
-          </h2>
-          <button 
-            onClick={onClose} 
-            className="p-2 hover:bg-gray-100 rounded transition-colors"
-            title="Close"
-          >
-            <X size={20} />
-          </button>
-        </div>
+          </DialogTitle>
+        </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              {t('categories.name')}
-            </label>
-            <input
-              type="text"
-              name="name"
+        <form onSubmit={handleSubmit} className="space-y-4 py-4">
+          <div className="space-y-2">
+            <Label>{t('categories.name')}</Label>
+            <Input
               value={formData.name}
-              onChange={handleChange}
-              className="input"
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               required
               placeholder={t('categories.categoryName')}
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              {t('categories.type')}
-            </label>
-            <div className="grid grid-cols-2 gap-2">
-              <button
+          <div className="space-y-2">
+            <Label>{t('categories.type')}</Label>
+            <div className="flex gap-2">
+              <Button
                 type="button"
+                variant={formData.type === 'income' ? 'default' : 'outline'}
                 onClick={() => setFormData({ ...formData, type: 'income' })}
-                className={`py-2 px-4 rounded-lg font-medium transition-colors ${
-                  formData.type === 'income'
-                    ? 'bg-green-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
                 disabled={!!category}
+                className={`flex-1 ${formData.type === 'income' ? 'bg-green-600 hover:bg-green-700' : ''}`}
               >
                 {t('categories.income')}
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
+                variant={formData.type === 'expense' ? 'default' : 'outline'}
                 onClick={() => setFormData({ ...formData, type: 'expense' })}
-                className={`py-2 px-4 rounded-lg font-medium transition-colors ${
-                  formData.type === 'expense'
-                    ? 'bg-red-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
                 disabled={!!category}
+                className={`flex-1 ${formData.type === 'expense' ? 'bg-red-600 hover:bg-red-700' : ''}`}
               >
                 {t('categories.expense')}
-              </button>
+              </Button>
             </div>
             {category && (
-              <p className="text-xs text-gray-500 mt-1">{t('categories.typeCannotChange')}</p>
+              <p className="text-xs text-muted-foreground">{t('categories.typeCannotChange')}</p>
             )}
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              {t('categories.color')}
-            </label>
+          <div className="space-y-2">
+            <Label>{t('categories.color')}</Label>
             <div className="grid grid-cols-5 sm:grid-cols-10 gap-2">
               {COLORS.map((color) => (
                 <button
                   key={color}
                   type="button"
                   onClick={() => setFormData({ ...formData, color })}
-                  className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full transition-all hover:scale-110 ${
-                    formData.color === color ? 'ring-2 ring-offset-2 ring-blue-600 scale-110' : ''
-                  }`}
+                  className={`w-8 h-8 rounded-full transition-all hover:scale-110 flex items-center justify-center ${formData.color === color ? 'ring-2 ring-offset-2 ring-primary scale-110' : ''
+                    }`}
                   style={{ backgroundColor: color }}
                   title={color}
-                />
+                >
+                  {formData.color === color && <Check className="text-white w-4 h-4" strokeWidth={3} />}
+                </button>
               ))}
             </div>
-            <p className="text-xs text-gray-500 mt-2">
-              Selected: <span className="font-mono">{formData.color}</span>
-            </p>
           </div>
 
-          <div className="flex gap-3 pt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="btn btn-secondary flex-1"
-            >
+          <DialogFooter className="gap-2 sm:justify-end">
+            <Button type="button" variant="outline" onClick={onClose}>
               {t('categories.cancel')}
-            </button>
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn btn-primary flex-1"
-            >
+            </Button>
+            <Button type="submit" disabled={loading}>
               {loading ? t('categories.saving') : (category ? t('categories.update') : t('categories.create'))}
-            </button>
-          </div>
+            </Button>
+          </DialogFooter>
         </form>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 
 export default CategoryModal;
-

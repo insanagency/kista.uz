@@ -1,9 +1,15 @@
+
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Lock } from 'lucide-react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 
 const ResetPassword = () => {
   const { t } = useTranslation();
@@ -62,92 +68,85 @@ const ResetPassword = () => {
 
   if (!validToken) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 p-4">
-        <div className="max-w-md w-full">
-          <div className="card text-center">
-            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Lock className="text-red-600" size={32} />
-            </div>
-            <h2 className="text-2xl font-bold mb-2">Invalid Reset Link</h2>
-            <p className="text-gray-600 mb-6">
-              This password reset link is invalid or has expired.
-            </p>
-            <a
-              href="/forgot-password"
-              className="btn btn-primary"
-            >
-              Request New Link
-            </a>
-          </div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4 transition-colors">
+        <div className="w-full max-w-md">
+          <Card className="text-center">
+            <CardContent className="pt-8 space-y-4">
+              <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto">
+                <Lock className="text-red-600 dark:text-red-400" size={32} />
+              </div>
+              <h2 className="text-2xl font-bold">Invalid Reset Link</h2>
+              <p className="text-muted-foreground">
+                This password reset link is invalid or has expired.
+              </p>
+              <Button asChild className="w-full">
+                <a href="/forgot-password">Request New Link</a>
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 p-4">
-      <div className="max-w-md w-full">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4 transition-colors">
+      <div className="w-full max-w-md space-y-8">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold tracking-tight text-primary">
             {t('app.name')}
           </h1>
-          <p className="text-gray-600">{t('auth.resetPassword')}</p>
+          <p className="mt-2 text-muted-foreground">{t('auth.resetPassword')}</p>
         </div>
 
-        <div className="card">
-          <div className="flex items-center gap-2 mb-6">
-            <Lock className="text-blue-600" />
-            <h2 className="text-2xl font-bold">{t('auth.resetPassword')}</h2>
-          </div>
+        <Card>
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl text-center">{t('auth.resetPassword')}</CardTitle>
+            <CardDescription className="text-center">
+              Enter your new password below.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="password">{t('auth.newPassword')}</Label>
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  placeholder="••••••••"
+                  minLength={6}
+                />
+                <p className="text-xs text-muted-foreground">
+                  At least 6 characters
+                </p>
+              </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                {t('auth.newPassword')}
-              </label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="input"
-                required
-                placeholder="••••••••"
-                minLength={6}
-              />
-              <p className="text-xs text-gray-500 mt-1">
-                At least 6 characters
-              </p>
-            </div>
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword">{t('auth.confirmPassword')}</Label>
+                <Input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+                  placeholder="••••••••"
+                />
+              </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                {t('auth.confirmPassword')}
-              </label>
-              <input
-                type="password"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                className="input"
-                required
-                placeholder="••••••••"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn btn-primary w-full"
-            >
-              {loading ? t('common.loading') : t('auth.resetPasswordButton')}
-            </button>
-          </form>
-        </div>
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? t('common.loading') : t('auth.resetPasswordButton')}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
 };
 
 export default ResetPassword;
-

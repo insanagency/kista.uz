@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCurrency } from '../context/CurrencyContext';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const CURRENCIES = [
   { code: 'UZS', name: 'Uzbekistan Som', symbol: 'so\'m', flag: '🇺🇿' },
@@ -57,45 +64,27 @@ export default function CurrencySelector({ className = '' }) {
   };
 
   return (
-    <div className={`relative ${className}`}>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center space-x-2 px-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
-      >
-        <span className="text-xl">{selectedCurrency.flag}</span>
-        <span className="font-medium flex-1 text-left text-gray-800 dark:text-gray-100">{selectedCurrency.code}</span>
-        <svg className={`w-4 h-4 transition-transform text-gray-600 dark:text-gray-300 ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
-      </button>
-
-      {isOpen && (
-        <>
-          <div className="fixed inset-0 z-10" onClick={() => setIsOpen(false)} />
-          <div className="absolute left-0 mt-2 w-72 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 z-20 max-h-80 overflow-y-auto">
-            {CURRENCIES.map((curr) => (
-              <button
-                key={curr.code}
-                onClick={() => handleSelect(curr.code)}
-                className={`w-full flex items-center space-x-3 px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${curr.code === currency ? 'bg-blue-50 dark:bg-blue-950/50 border-l-4 border-blue-600' : ''
-                  }`}
-              >
-                <span className="text-2xl">{curr.flag}</span>
-                <div className="flex-1 text-left">
-                  <div className="font-semibold text-gray-900 dark:text-gray-100">{curr.code}</div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">{curr.name}</div>
-                </div>
-                {curr.code === currency && (
-                  <svg className="w-5 h-5 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                )}
-              </button>
-            ))}
-          </div>
-        </>
-      )}
-    </div>
+    <Select value={currency} onValueChange={handleSelect}>
+      <SelectTrigger className={`w-full ${className}`}>
+        <SelectValue placeholder="Select currency">
+          <span className="flex items-center gap-2">
+            <span className="text-lg">{selectedCurrency.flag}</span>
+            <span>{selectedCurrency.code}</span>
+          </span>
+        </SelectValue>
+      </SelectTrigger>
+      <SelectContent>
+        {CURRENCIES.map((curr) => (
+          <SelectItem key={curr.code} value={curr.code}>
+            <span className="flex items-center gap-2">
+              <span className="text-xl">{curr.flag}</span>
+              <span className="font-medium">{curr.code}</span>
+              <span className="text-xs text-muted-foreground ml-1">({curr.name})</span>
+            </span>
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }
 

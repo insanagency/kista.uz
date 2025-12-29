@@ -1,15 +1,28 @@
+
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, Plus, Minus } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../lib/api';
 import { useCurrency } from '../context/CurrencyContext';
+
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog"
 
 const ContributionModal = ({ goal, onClose }) => {
   const { t } = useTranslation();
   const { currency } = useCurrency();
   const [isWithdraw, setIsWithdraw] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     amount: '',
     currency: goal.currency || currency || 'USD',
@@ -19,7 +32,7 @@ const ContributionModal = ({ goal, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       const endpoint = isWithdraw ? 'withdraw' : 'contribute';
       await api.post(`/goals/${goal.id}/${endpoint}`, formData);
@@ -31,101 +44,84 @@ const ContributionModal = ({ goal, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-lg w-full max-w-md">
-        <div className="border-b dark:border-gray-700 px-6 py-4 flex justify-between items-center">
-          <h2 className="text-xl font-bold dark:text-gray-100">
-            {goal.icon} {goal.name}
-          </h2>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-            <X size={20} />
-          </button>
-        </div>
+    <Dialog open={true} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <span>{goal.icon}</span>
+            <span>{goal.name}</span>
+          </DialogTitle>
+        </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 py-4">
           <div className="flex gap-2">
-            <button
+            <Button
               type="button"
+              variant={!isWithdraw ? "default" : "outline"}
               onClick={() => setIsWithdraw(false)}
-              className={`flex-1 px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-colors ${
-                !isWithdraw
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
+              className={`flex-1 gap-2 ${!isWithdraw ? 'bg-green-600 hover:bg-green-700' : ''}`}
             >
-              <Plus size={20} />
+              <Plus size={16} />
               {t('goals.add')}
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
+              variant={isWithdraw ? "default" : "outline"}
               onClick={() => setIsWithdraw(true)}
-              className={`flex-1 px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-colors ${
-                isWithdraw
-                  ? 'bg-red-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
+              className={`flex-1 gap-2 ${isWithdraw ? 'bg-red-600 hover:bg-red-700' : ''}`}
             >
-              <Minus size={20} />
+              <Minus size={16} />
               {t('goals.withdraw')}
-            </button>
+            </Button>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-2 dark:text-gray-200">
-              {t('common.amount')} *
-            </label>
-            <input
+          <div className="space-y-2">
+            <Label>{t('common.amount')} *</Label>
+            <Input
               type="number"
               step="0.01"
               min="0.01"
               max={isWithdraw ? goal.current_amount : undefined}
               value={formData.amount}
               onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-              className="input"
               required
               placeholder={isWithdraw ? `Max: ${goal.current_amount}` : ''}
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-2 dark:text-gray-200">
-              {t('common.date')}
-            </label>
-            <input
+          <div className="space-y-2">
+            <Label>{t('common.date')}</Label>
+            <Input
               type="date"
               value={formData.contribution_date}
               onChange={(e) => setFormData({ ...formData, contribution_date: e.target.value })}
-              className="input"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-2 dark:text-gray-200">
-              {t('common.note')}
-            </label>
-            <textarea
+          <div className="space-y-2">
+            <Label>{t('common.note')}</Label>
+            <Textarea
               value={formData.note}
               onChange={(e) => setFormData({ ...formData, note: e.target.value })}
-              className="input"
-              rows="3"
+              rows={3}
               placeholder={t('goals.notePlaceholder')}
             />
           </div>
 
-          <div className="flex gap-2 pt-4">
-            <button type="button" onClick={onClose} className="flex-1 btn-secondary">
+          <DialogFooter className="gap-2 sm:justify-end">
+            <Button type="button" variant="outline" onClick={onClose}>
               {t('common.cancel')}
-            </button>
-            <button
+            </Button>
+            <Button
               type="submit"
-              className={`flex-1 btn ${isWithdraw ? 'bg-red-600 hover:bg-red-700' : 'btn-primary'} text-white`}
+              className={isWithdraw ? 'bg-red-600 hover:bg-red-700' : ''}
             >
               {t(isWithdraw ? 'goals.confirmWithdraw' : 'goals.confirmAdd')}
-            </button>
-          </div>
+            </Button>
+          </DialogFooter>
         </form>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 
