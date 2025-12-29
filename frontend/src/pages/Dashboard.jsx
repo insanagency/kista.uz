@@ -13,7 +13,7 @@ import {
   Plus,
 } from 'lucide-react';
 import { format, startOfMonth, endOfMonth } from 'date-fns';
-import { enUS, vi, es, fr, de, zhCN, ja, ko, pt, ru } from 'date-fns/locale';
+import { enUS, vi, es, fr, de, zhCN, ja, ko, pt, ru, uz } from 'date-fns/locale';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { DashboardSkeleton } from '../components/LoadingSkeleton';
 
@@ -44,7 +44,8 @@ const Dashboard = () => {
       ja: ja,
       ko: ko,
       pt: pt,
-      ru: ru
+      ru: ru,
+      uz: uz
     };
     return locales[i18n.language] || enUS;
   };
@@ -174,7 +175,7 @@ const Dashboard = () => {
             {t('dashboard.greeting', { defaultValue: 'Welcome back,' })} {user?.full_name?.split(' ')[0]} 👋
           </h1>
           <p className="text-muted-foreground mt-1">
-            {t('dashboard.overview', { date: new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) })}
+            {t('dashboard.overview', { date: format(new Date(), 'PPPP', { locale: getDateLocale() }) })}
           </p>
         </div>
 
