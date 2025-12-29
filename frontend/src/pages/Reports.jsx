@@ -244,7 +244,7 @@ const Reports = () => {
           <DropdownMenuTrigger asChild>
             <Button className="w-full sm:w-auto gap-2">
               <Download size={16} />
-              <span>Export</span>
+              <span>{t('common.export')}</span>
               <ChevronDown size={14} className="opacity-50" />
             </Button>
           </DropdownMenuTrigger>
@@ -252,14 +252,14 @@ const Reports = () => {
             <DropdownMenuItem onClick={handleExport} className="gap-2">
               <FileSpreadsheet size={16} className="text-green-600" />
               <div className="flex flex-col">
-                <span>Export CSV</span>
+                <span>{t('reports.exportCSV')}</span>
                 <span className="text-xs text-muted-foreground">Spreadsheet format</span>
               </div>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleExportPDF} className="gap-2">
               <FileText size={16} className="text-red-600" />
               <div className="flex flex-col">
-                <span>Export PDF</span>
+                <span>{t('reports.exportPDF')}</span>
                 <span className="text-xs text-muted-foreground">Printable report</span>
               </div>
             </DropdownMenuItem>

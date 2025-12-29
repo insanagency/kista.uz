@@ -123,7 +123,7 @@ const Budgets = () => {
           <Button onClick={handleAdd} className="shrink-0 gap-2">
             <Plus size={16} />
             <span className="hidden sm:inline">{t('budgets.setBudget')}</span>
-            <span className="sm:hidden">Add</span>
+            <span className="sm:hidden">{t('common.add')}</span>
           </Button>
         </div>
       </div>

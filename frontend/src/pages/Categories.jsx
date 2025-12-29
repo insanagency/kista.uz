@@ -160,7 +160,7 @@ const Categories = () => {
                           : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
                           }`}
                       >
-                        {category.type}
+                        {category.type === 'income' ? t('categories.income') : t('categories.expense')}
                       </Badge>
                     </div>
                   </div>

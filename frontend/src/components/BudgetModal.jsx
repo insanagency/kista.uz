@@ -192,7 +192,7 @@ const BudgetModal = ({ month, year, budget = null, onClose }) => {
               onValueChange={(val) => setFormData({ ...formData, category_id: val })}
             >
               <SelectTrigger>
-                <SelectValue placeholder={t('budgets.selectCategory')} />
+                <SelectValue placeholder={t('common.selectCategory')} />
               </SelectTrigger>
               <SelectContent>
                 {categories.map((cat) => (
