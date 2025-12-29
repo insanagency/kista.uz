@@ -196,13 +196,13 @@ const Dashboard = () => {
                 viewMode === 'last30' ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
               )}
             >
-              30 Days
+              {t('dashboard.last30Days')}
             </button>
           </div>
 
           <Button asChild size="sm" className="hidden sm:flex">
             <Link to="/transactions">
-              <Plus className="mr-2 h-4 w-4" /> Add Transaction
+              <Plus className="mr-2 h-4 w-4" /> {t('transactions.addTransaction')}
             </Link>
           </Button>
         </div>
@@ -222,7 +222,7 @@ const Dashboard = () => {
               {balance >= 0 ? formatCurrency(balance) : '-' + formatCurrency(Math.abs(balance))}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
-              +20.1% from last month
+              +20.1% {t('dashboard.fromLastMonth')}
             </p>
           </CardContent>
         </Card>
@@ -239,7 +239,7 @@ const Dashboard = () => {
               {formatCurrency(income)}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
-              +10.5% from last month
+              +10.5% {t('dashboard.fromLastMonth')}
             </p>
           </CardContent>
         </Card>
@@ -256,7 +256,7 @@ const Dashboard = () => {
               {formatCurrency(expense)}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
-              -4% from last month
+              -4% {t('dashboard.fromLastMonth')}
             </p>
           </CardContent>
         </Card>
