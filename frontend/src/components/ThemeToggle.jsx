@@ -15,7 +15,7 @@ export default function ThemeToggle() {
           <Sun className="h-4 w-4" />
         )}
         <span className="text-sm font-medium">
-          {isDark ? 'Dark Mode' : 'Light Mode'}
+          {isDark ? 'Tungi rejim' : 'Kunduzgi rejim'}
         </span>
       </div>
       <Switch

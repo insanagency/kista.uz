@@ -29,11 +29,10 @@ export default function LanguageSelector({ className = '' }) {
   return (
     <Select value={i18n.language} onValueChange={handleSelect}>
       <SelectTrigger className={`w-full ${className}`}>
-        <SelectValue placeholder="Language">
+        <SelectValue placeholder="Tilni tanlang">
           <span className="flex items-center gap-2">
             <span className="text-lg">{currentLanguage.flag}</span>
-            <span className="truncate hidden sm:inline">{currentLanguage.name}</span>
-            <span className="sm:hidden font-medium text-xs">{currentLanguage.code.toUpperCase()}</span>
+            <span className="font-medium">{currentLanguage.name}</span>
           </span>
         </SelectValue>
       </SelectTrigger>
