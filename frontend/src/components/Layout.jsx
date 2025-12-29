@@ -122,16 +122,21 @@ const Layout = () => {
       </ScrollArea>
 
       {/* User Footer */}
+      {/* User Footer */}
       <div className="p-4 border-t bg-muted/20">
-        <div className="flex items-center gap-3 px-2 mb-2">
-          <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold shadow-sm border border-primary/20">
+        <NavLink
+          to="/profile"
+          onClick={() => setOpen(false)}
+          className="flex items-center gap-3 px-2 mb-2 p-2 rounded-md hover:bg-muted transition-colors cursor-pointer group"
+        >
+          <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold shadow-sm border border-primary/20 group-hover:bg-primary/20 transition-colors">
             {user?.full_name?.charAt(0) || 'U'}
           </div>
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 text-left">
             <p className="text-sm font-medium leading-none truncate">{user?.full_name}</p>
             <p className="text-xs text-muted-foreground mt-1 truncate">{user?.email}</p>
           </div>
-        </div>
+        </NavLink>
 
         <div className="space-y-2 w-full mt-2 border-t pt-2">
           <LanguageSelector />
@@ -140,12 +145,6 @@ const Layout = () => {
         </div>
 
         <div className="mt-2 space-y-2 pt-2 border-t">
-          <Button variant="ghost" size="sm" className="w-full justify-start gap-2 h-9 font-normal" asChild>
-            <NavLink to="/profile" onClick={() => setOpen(false)}>
-              <User size={16} />
-              {t('nav.profile')}
-            </NavLink>
-          </Button>
           <Button
             variant="ghost"
             size="sm"
