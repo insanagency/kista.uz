@@ -1,6 +1,7 @@
 
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { useCurrency } from '../context/CurrencyContext';
 import { useDashboardData, useForecast } from '../hooks/useTransactions';
@@ -9,6 +10,7 @@ import {
   TrendingDown,
   Wallet,
   ArrowRight,
+  Plus,
 } from 'lucide-react';
 import { format, startOfMonth, endOfMonth } from 'date-fns';
 import { enUS, vi, es, fr, de, zhCN, ja, ko, pt, ru } from 'date-fns/locale';
@@ -26,6 +28,7 @@ import {
 import { cn } from "@/lib/utils";
 
 const Dashboard = () => {
+  const { user } = useAuth();
   const { t, i18n } = useTranslation();
   const { formatCurrency } = useCurrency();
   const [viewMode, setViewMode] = useState('month'); // 'month', 'last30', 'all'
