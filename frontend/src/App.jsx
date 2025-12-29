@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from "@/components/ui/sonner"
 import { Suspense, lazy } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import { CurrencyProvider } from './context/CurrencyContext';
@@ -75,56 +75,7 @@ function App() {
       <AuthProvider>
         <CurrencyProvider>
           <Router>
-            <Toaster
-              position="top-right"
-              toastOptions={{
-                duration: 3000,
-                style: {
-                  background: 'var(--toast-bg)',
-                  color: 'var(--toast-text)',
-                  borderRadius: '12px',
-                  padding: '16px',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-                },
-                success: {
-                  duration: 3000,
-                  iconTheme: {
-                    primary: '#10b981',
-                    secondary: '#ffffff',
-                  },
-                  style: {
-                    background: '#f0fdf4',
-                    color: '#15803d',
-                    border: '1px solid #86efac',
-                  },
-                },
-                error: {
-                  duration: 4000,
-                  iconTheme: {
-                    primary: '#ef4444',
-                    secondary: '#ffffff',
-                  },
-                  style: {
-                    background: '#fef2f2',
-                    color: '#991b1b',
-                    border: '1px solid #fca5a5',
-                  },
-                },
-                loading: {
-                  iconTheme: {
-                    primary: '#3b82f6',
-                    secondary: '#ffffff',
-                  },
-                  style: {
-                    background: '#eff6ff',
-                    color: '#1e40af',
-                    border: '1px solid #93c5fd',
-                  },
-                },
-              }}
-            />
+            <Toaster />
             <Suspense fallback={<PageLoader />}>
               <Routes>
                 <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />

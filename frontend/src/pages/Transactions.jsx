@@ -7,7 +7,7 @@ import { useCurrency } from '../context/CurrencyContext';
 import { Plus, Pencil, Trash2, Filter, Download, Repeat, Calendar, Wallet } from 'lucide-react';
 import { format } from 'date-fns';
 import { enUS, vi, es, fr, de, zhCN, ja, ko, pt, ru } from 'date-fns/locale';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 import TransactionModal from '../components/TransactionModal';
 import { TableSkeleton, ListSkeleton } from '../components/LoadingSkeleton';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
@@ -113,7 +113,7 @@ const Transactions = () => {
       console.error('Error fetching recurring:', error);
       setRecurringList([]);
       if (error.response?.status !== 404 && error.response?.status !== 502) {
-        toast.error('Failed to load recurring transactions');
+        toast.error(t('recurring.failedToLoad'));
       }
     } finally {
       setLoading(false);
@@ -168,9 +168,9 @@ const Transactions = () => {
       link.click();
       link.remove();
 
-      toast.success(t('transactions.exportedSuccess') || 'Transactions exported');
+      toast.success(t('transactions.exportedSuccess'));
     } catch (error) {
-      toast.error(t('transactions.failedToExport') || 'Failed to export');
+      toast.error(t('transactions.failedToExport'));
       console.error(error);
     }
   };

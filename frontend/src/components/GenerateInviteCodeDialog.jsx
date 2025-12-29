@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Ticket } from 'lucide-react';
 import api from '../lib/api';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -49,7 +49,7 @@ const GenerateInviteCodeDialog = ({ open, onOpenChange, familyId, onSuccess }) =
 
             const message = maxUses || expiresInDays
                 ? t('family.inviteCode.codeGenerated')
-                : `Unlimited invite code created! ♾️`;
+                : t('family.inviteCode.unlimitedCreated');
             toast.success(message);
 
             onSuccess();

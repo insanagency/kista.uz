@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 import { format } from 'date-fns';
 import api from '../lib/api';
 import { useCurrency } from '../context/CurrencyContext';
@@ -87,7 +87,7 @@ const Recurring = () => {
 
     try {
       if (!formData.type || !formData.amount || !formData.frequency || !formData.start_date) {
-        toast.error('Please fill all required fields');
+        toast.error(t('common.fillAllFields'));
         return;
       }
 
@@ -139,7 +139,7 @@ const Recurring = () => {
   const handleToggle = async (id, currentStatus) => {
     try {
       await api.patch(`/recurring/${id}/toggle`);
-      toast.success(currentStatus ? 'Deactivated' : 'Activated');
+      toast.success(currentStatus ? t('recurring.deactivated') : t('recurring.activated'));
       fetchRecurring();
     } catch (error) {
       toast.error(error.response?.data?.error || t('common.error'));

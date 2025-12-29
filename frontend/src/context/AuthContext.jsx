@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 import { validateAndCleanupToken, getTokenExpirationMessage } from '../utils/tokenManager';
 
 const AuthContext = createContext();
@@ -16,25 +17,26 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     // Validate and cleanup expired tokens on app load
     const isValid = validateAndCleanupToken();
-    
+
     if (!isValid) {
       console.log('🔒 No valid token found, user remains logged out');
       setLoading(false);
       return;
     }
-    
+
     const token = localStorage.getItem('token');
     const userData = localStorage.getItem('user');
-    
+
     if (token && userData) {
       try {
         setUser(JSON.parse(userData));
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        
+
         // Log token expiration info
         const expirationMsg = getTokenExpirationMessage();
         console.log('✅ Valid token found:', expirationMsg);
@@ -44,7 +46,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('user');
       }
     }
-    
+
     setLoading(false);
   }, []);
 
@@ -56,16 +58,16 @@ export const AuthProvider = ({ children }) => {
       });
 
       const { token, user: userData } = response.data;
-      
+
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(userData));
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      
+
       setUser(userData);
-      toast.success('Welcome back!');
+      toast.success(t('auth.welcomeBack'));
       return true;
     } catch (error) {
-      const message = error.response?.data?.error || 'Login failed';
+      const message = error.response?.data?.error || t('auth.loginFailed');
       toast.error(message);
       return false;
     }
@@ -80,16 +82,16 @@ export const AuthProvider = ({ children }) => {
       });
 
       const { token, user: userData } = response.data;
-      
+
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(userData));
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      
+
       setUser(userData);
-      toast.success('Account created successfully!');
+      toast.success(t('auth.accountCreated'));
       return true;
     } catch (error) {
-      const message = error.response?.data?.error || 'Registration failed';
+      const message = error.response?.data?.error || t('auth.registrationFailed');
       toast.error(message);
       return false;
     }
@@ -100,7 +102,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('user');
     delete axios.defaults.headers.common['Authorization'];
     setUser(null);
-    toast.success('Logged out successfully');
+    toast.success(t('auth.loggedOut'));
   };
 
   const value = {

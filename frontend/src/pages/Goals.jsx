@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 import api from '../lib/api';
 import { useCurrency } from '../context/CurrencyContext';
 import { Target, Plus } from 'lucide-react';

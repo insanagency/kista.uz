@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import api from '../lib/api';
 import { useCurrency } from '../context/CurrencyContext';
 import { Plus, Trash2, TrendingDown, AlertTriangle, Edit2, Wallet } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 import BudgetModal from '../components/BudgetModal';
 
 import { Button } from "@/components/ui/button";

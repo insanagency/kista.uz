@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
 export default function AuthCallback() {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -14,7 +16,7 @@ export default function AuthCallback() {
       const error = searchParams.get('error');
 
       if (error) {
-        toast.error('Google login failed. Please try again.');
+        toast.error(t('auth.googleLoginFailed'));
         navigate('/login');
         return;
       }
@@ -32,17 +34,17 @@ export default function AuthCallback() {
           localStorage.setItem('user', JSON.stringify(userData));
 
           // Show welcome message
-          toast.success(`Welcome back, ${userData.full_name}!`);
+          toast.success(t('auth.welcomeBack'));
 
           // Redirect to dashboard
           window.location.href = '/dashboard';
         } catch (err) {
           console.error('Error processing OAuth callback:', err);
-          toast.error('Authentication failed');
+          toast.error(t('auth.authFailed'));
           navigate('/login');
         }
       } else {
-        toast.error('Authentication failed');
+        toast.error(t('auth.authFailed'));
         navigate('/login');
       }
     };

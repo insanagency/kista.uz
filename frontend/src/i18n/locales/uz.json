@@ -41,7 +41,19 @@
         "sendResetLink": "Tiklash havolasini yuborish",
         "backToLogin": "Kirishga qaytish",
         "newPassword": "Yangi parol",
-        "resetPasswordButton": "Parolni tiklash"
+        "resetPasswordButton": "Parolni tiklash",
+        "welcomeBack": "Xush kelibsiz!",
+        "accountCreated": "Hisob muvaffaqiyatli yaratildi!",
+        "loginFailed": "Kirishda xatolik",
+        "registrationFailed": "Ro'yxatdan o'tishda xatolik",
+        "loggedOut": "Tizimdan chiqildi",
+        "googleLoginFailed": "Google orqali kirish amalga oshmadi. Qayta urinib ko'ring.",
+        "authFailed": "Autentifikatsiya xatoligi",
+        "resetEmailSent": "Parolni tiklash havolasi yuborildi! Emailingizni tekshiring.",
+        "invalidToken": "Noto'g'ri yoki eskirgan tiklash kodi",
+        "passwordMismatch": "Parollar mos kelmadi",
+        "passwordTooShort": "Parol kamida 6 ta belgi bo'lishi kerak",
+        "passwordResetSuccess": "Parol muvaffaqiyatli tiklandi!"
     },
     "dashboard": {
         "title": "Bosh sahifa",
@@ -118,7 +130,9 @@
         "cancel": "Bekor qilish",
         "create": "Yaratish",
         "update": "Yangilash",
-        "saving": "Saqlanmoqda..."
+        "saving": "Saqlanmoqda...",
+        "exportedSuccess": "O'tkazmalar muvaffaqiyatli eksport qilindi",
+        "failedToExport": "O'tkazmalarni eksport qilishda xatolik"
     },
     "categories": {
         "title": "Kategoriyalar",
@@ -151,7 +165,8 @@
         "other_income": "Boshqa daromadlar",
         "uncategorized": "Kategoriyasiz",
         "uncategorized_income": "Boshqa daromadlar",
-        "uncategorized_expense": "Boshqa xarajatlar"
+        "uncategorized_expense": "Boshqa xarajatlar",
+        "nameRequired": "Kategoriya nomi talab qilinadi"
     },
     "budgets": {
         "title": "Byudjetlar",
@@ -209,7 +224,10 @@
         "income": "Daromad",
         "expense": "Xarajat",
         "balance": "Balans",
-        "amount": "Miqdor"
+        "amount": "Miqdor",
+        "pdfExportSuccess": "PDF muvaffaqiyatli eksport qilindi!",
+        "pdfExportFailed": "PDF eksport qilishda xatolik",
+        "generatingPDF": "PDF yaratilmoqda..."
     },
     "common": {
         "loading": "Yuklanmoqda...",
@@ -242,7 +260,9 @@
         "authError": "Autentifikatsiya xatoligi",
         "sessionExpired": "Sessiya vaqti tugadi. Iltimos, qayta kiring.",
         "relogin": "Qayta kirish",
-        "saving": "Saqlanmoqda..."
+        "saving": "Saqlanmoqda...",
+        "checkInput": "Iltimos, ma'lumotlarni tekshiring",
+        "fillAllFields": "Iltimos, barcha majburiy maydonlarni to'ldiring"
     },
     "recurring": {
         "title": "Doimiy takrorlanuvchi to'lovlar",
@@ -276,7 +296,11 @@
         "addFirstRecurring": "Birinchi to'lovni qo'shing",
         "next": "Keyingi",
         "ends": "Tugaydi",
-        "processed": "To'lovlar muvaffaqiyatli qayta ishlandi!"
+        "processed": "To'lovlar muvaffaqiyatli qayta ishlandi!",
+        "failedToLoad": "Doimiy to'lovlarni yuklashda xatolik",
+        "createFailedAfterTransaction": "O'tkazma yaratildi, lekin doimiy to'lovni yaratishda xatolik",
+        "deactivated": "Faolsizlantirildi",
+        "activated": "Faollashtirildi"
     },
     "goals": {
         "title": "Jamg'arma maqsadlari",
@@ -464,8 +488,9 @@
         "headTransferred": "Boshliq roli o'tkazildi! Siz endi Boshqaruvchi bo'ldingiz.",
         "deleteConfirm": "⚠️ BUTUN OILANI O'CHIRISH?\n\nBu oilani va barcha a'zolarni butunlay o'chirib tashlaydi.\n\nBu amalni qaytarib bo'lmaydi!\n\nIshonchingiz komilmi?",
         "leaveConfirm": "Ushbu oiladan chiqishni xohlaysizmi?",
-        "removeConfirm": "Ushbu a'zoni o'chirishni xohlaysizmi?",
         "transferHeadConfirm": "⚠️ Boshliq rolini o'tkazish?\n\nSiz Boshqaruvchi bo'lasiz va bu a'zo yangi Boshliq bo'ladi.\n\nIshonchingiz komilmi?",
+        "failedToLoadDetails": "Oila ma'lumotlarini yuklashda xatolik",
+        "accessDenied": "Kirish rad etildi",
         "failedToLoad": "Oilalarni yuklashda xatolik",
         "failedToDelete": "Oilani o'chirishda xatolik",
         "failedToCreate": "Oila yaratishda xatolik",
@@ -491,6 +516,7 @@
             "days": "kun",
             "noActiveCodes": "Faol taklif kodlari yo'q",
             "createFirst": "Boshqalar qo'shilishi uchun taklif kodi yarating",
+            "unlimitedCreated": "Cheksiz taklif kodi yaratildi! ♾️",
             "codeGenerated": "Taklif kodi yaratildi",
             "codeDeactivated": "Taklif kodi faolsizlantirildi",
             "failedToGenerate": "Taklif kodi yaratishda xatolik",
@@ -500,10 +526,10 @@
             "enterCode": "Taklif kodini kiriting",
             "codePlaceholder": "8 xonali kodni kiriting",
             "join": "Qo'shilish",
-            "joinSuccess": "Oilaga muvaffaqiyatli qo'shildingiz!",
             "invalidCode": "Noto'g'ri yoki muddati o'tgan kod",
             "alreadyMember": "Siz allaqachon bu oilaning a'zosisiz",
             "failedToJoin": "Qo'shilishda xatolik",
+            "joinSuccess": "Oilaga muvaffaqiyatli qo'shildingiz!",
             "unlimitedUsesHelp": "Cheksiz foydalanish uchun bo'sh qoldiring",
             "noExpirationHelp": "Muddat cheklovi yo'q bo'lishi uchun bo'sh qoldiring",
             "pendingInvitation": "Kutilayotgan taklif",

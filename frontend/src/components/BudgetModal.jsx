@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useCurrency } from '../context/CurrencyContext';
 import { Plus } from 'lucide-react';
 import api from '../lib/api';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -104,7 +104,7 @@ const BudgetModal = ({ month, year, budget = null, onClose }) => {
 
   const handleQuickAddCategory = async () => {
     if (!quickAddName.trim()) {
-      toast.error(t('categories.name') + ' is required');
+      toast.error(t('categories.nameRequired'));
       return;
     }
     try {

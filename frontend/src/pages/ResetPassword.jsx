@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Lock } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 import axios from 'axios';
 
 import { Button } from "@/components/ui/button"
@@ -27,7 +27,7 @@ const ResetPassword = () => {
   useEffect(() => {
     if (!token) {
       setValidToken(false);
-      toast.error('Invalid or missing reset token');
+      toast.error(t('auth.invalidToken'));
     }
   }, [token]);
 
@@ -35,12 +35,12 @@ const ResetPassword = () => {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      toast.error('Passwords do not match');
+      toast.error(t('auth.passwordMismatch'));
       return;
     }
 
     if (formData.password.length < 6) {
-      toast.error('Password must be at least 6 characters');
+      toast.error(t('auth.passwordTooShort'));
       return;
     }
 
@@ -52,7 +52,7 @@ const ResetPassword = () => {
         newPassword: formData.password,
       });
 
-      toast.success('Password reset successfully!');
+      toast.success(t('auth.passwordResetSuccess'));
       navigate('/login');
     } catch (error) {
       const message = error.response?.data?.error || 'Failed to reset password';

@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, Check } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 import api from '../lib/api';
 import { useCurrency } from '../context/CurrencyContext';
 import { format } from "date-fns";

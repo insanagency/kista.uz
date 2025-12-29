@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCurrency } from '../context/CurrencyContext';
 import api from '../lib/api';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 import {
   Users, Plus, Mail, Shield, Trash2, Settings,
   UserPlus, X, Check, Crown, UserCheck, Eye, AlertTriangle,
@@ -78,7 +78,7 @@ export default function Family() {
 
       if (error.response?.status === 403 || error.response?.status === 401) {
         setAuthError(true);
-        toast.error('Authentication error. Please log in again.');
+        toast.error(t('common.authError'));
       } else {
         toast.error(t('family.failedToLoad'));
       }
@@ -109,12 +109,12 @@ export default function Family() {
       }
     } catch (error) {
       console.error('Error fetching family details:', error);
-      const errorMsg = error.response?.data?.error || 'Failed to load family details';
+      const errorMsg = error.response?.data?.error || t('family.failedToLoadDetails');
 
       if (error.response?.status === 403) {
-        toast.error(t('family.accessDenied') || 'Access denied.');
+        toast.error(t('family.accessDenied'));
       } else if (error.response?.status === 401) {
-        toast.error('Session expired. Please log in again.');
+        toast.error(t('common.sessionExpired'));
       } else {
         toast.error(errorMsg);
       }

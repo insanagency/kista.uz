@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { UserPlus } from 'lucide-react';
 import api from '../lib/api';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -27,7 +27,7 @@ const JoinFamilyDialog = ({ open, onOpenChange, onSuccess }) => {
         setLoading(true);
 
         if (!code.trim()) {
-            toast.error('Please enter an invite code');
+            toast.error(t('family.inviteCode.enterCode'));
             setLoading(false);
             return;
         }

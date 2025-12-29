@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useCurrency } from '../context/CurrencyContext';
 import { Plus } from 'lucide-react';
 import api from '../lib/api';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 import { format } from 'date-fns';
 
 import { Button } from "@/components/ui/button"
@@ -97,7 +97,7 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
     e.preventDefault();
 
     if (!validateForm()) {
-      toast.error('Please check your input');
+      toast.error(t('common.checkInput'));
       return;
     }
 
@@ -133,7 +133,7 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
             setTimeout(() => window.location.reload(), 1000);
           } catch (recurError) {
             console.error('Failed to create recurring:', recurError);
-            toast.error('Transaction created but recurring failed');
+            toast.error(t('recurring.createFailedAfterTransaction'));
           }
         } else {
           onClose(); // Only close if not reloading
@@ -151,7 +151,7 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
 
   const handleQuickAddCategory = async () => {
     if (!quickAddName.trim()) {
-      toast.error(t('categories.name') + ' is required');
+      toast.error(t('categories.nameRequired'));
       return;
     }
     try {

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import api from '../lib/api';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 import {
   Users, UserCheck, TrendingUp, Database, Shield, Search, Lock, Trash2,
   DollarSign, Target, Repeat, FolderOpen, Eye, X, Crown, UserCircle, RefreshCw
@@ -82,7 +82,7 @@ const Admin = () => {
       setUsers(response.data.users);
       setPagination(prev => ({ ...prev, ...response.data.pagination }));
     } catch (error) {
-      toast.error(t('admin.failedToLoadUsers') || 'Failed to load users');
+      toast.error(t('admin.failedToLoadUsers'));
     } finally {
       setLoading(false);
     }
@@ -95,7 +95,7 @@ const Admin = () => {
 
     try {
       await api.put(`/admin/users/${userId}/role`, { role: newRole });
-      toast.success(t('admin.roleUpdated') || 'Role updated successfully');
+      toast.success(t('admin.roleUpdated'));
       fetchUsers();
     } catch (error) {
       const message = error.response?.data?.error || t('admin.failedToUpdateRole') || 'Failed to update role';
@@ -105,13 +105,13 @@ const Admin = () => {
 
   const handleResetPassword = async () => {
     if (!newPassword || newPassword.length < 6) {
-      toast.error(t('admin.passwordTooShort') || 'Password must be at least 6 characters');
+      toast.error(t('admin.passwordTooShort'));
       return;
     }
 
     try {
       await api.post(`/admin/users/${selectedUser.id}/reset-password`, { newPassword });
-      toast.success(t('admin.passwordReset') || 'Password reset successfully');
+      toast.success(t('admin.passwordReset'));
       setShowResetModal(false);
       setNewPassword('');
       setSelectedUser(null);
@@ -128,7 +128,7 @@ const Admin = () => {
 
     try {
       await api.delete(`/admin/users/${userId}`);
-      toast.success(t('admin.userDeleted') || 'User deleted successfully');
+      toast.success(t('admin.userDeleted'));
       fetchUsers();
       fetchStats();
     } catch (error) {
@@ -144,7 +144,7 @@ const Admin = () => {
       const response = await api.get(`/admin/users/${userId}/details`);
       setUserDetails(response.data);
     } catch (error) {
-      toast.error(t('admin.failedToLoadDetails') || 'Failed to load user details');
+      toast.error(t('admin.failedToLoadDetails'));
       setShowDetailsModal(false);
     } finally {
       setLoadingDetails(false);

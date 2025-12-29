@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 import { User, Mail, Lock, Save, Eye, EyeOff, Shield } from 'lucide-react';
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -85,9 +85,9 @@ const Profile = () => {
       setUser(updatedUser);
       localStorage.setItem('user', JSON.stringify(updatedUser));
 
-      toast.success(t('profile.updateSuccess') || 'Profile updated successfully!');
+      toast.success(t('profile.updateSuccess'));
     } catch (error) {
-      const message = error.response?.data?.error || error.response?.data?.errors?.[0]?.msg || t('profile.updateError') || 'Failed to update profile';
+      const message = error.response?.data?.error || error.response?.data?.errors?.[0]?.msg || t('profile.updateError');
       toast.error(message);
     } finally {
       setIsUpdatingProfile(false);
@@ -99,13 +99,13 @@ const Profile = () => {
 
     // Validate passwords match
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-      toast.error(t('profile.passwordMismatch') || 'Passwords do not match');
+      toast.error(t('profile.passwordMismatch'));
       return;
     }
 
     // Validate password length
     if (passwordForm.newPassword.length < 6) {
-      toast.error(t('profile.passwordTooShort') || 'Password must be at least 6 characters');
+      toast.error(t('profile.passwordTooShort'));
       return;
     }
 
@@ -114,7 +114,7 @@ const Profile = () => {
 
     // Only require current password for non-OAuth users
     if (!isOAuthUser && !passwordForm.currentPassword) {
-      toast.error(t('profile.currentPasswordRequired') || 'Current password is required');
+      toast.error(t('profile.currentPasswordRequired'));
       return;
     }
 
@@ -140,7 +140,7 @@ const Profile = () => {
         localStorage.setItem('user', JSON.stringify(updatedUser));
       }
     } catch (error) {
-      const message = error.response?.data?.error || error.response?.data?.errors?.[0]?.msg || t('profile.passwordChangeError') || 'Failed to change password';
+      const message = error.response?.data?.error || error.response?.data?.errors?.[0]?.msg || t('profile.passwordChangeError');
       toast.error(message);
     } finally {
       setIsChangingPassword(false);

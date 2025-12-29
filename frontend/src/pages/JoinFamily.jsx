@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import api from '../lib/api';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 import { Users, Check, Loader2, AlertCircle } from 'lucide-react';
 
 import { Button } from "@/components/ui/button"
@@ -28,7 +28,7 @@ export default function JoinFamily() {
 
       console.log('Join response:', response.data);
       setFamilyInfo(response.data.family);
-      toast.success(response.data.message || 'Successfully joined family!');
+      toast.success(response.data.message || t('family.joinSuccess'));
 
       // Redirect to family page after 2 seconds
       setTimeout(() => {

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Mail, ArrowLeft } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 import axios from 'axios';
 
 import { Button } from "@/components/ui/button"
@@ -28,7 +28,7 @@ const ForgotPassword = () => {
       });
 
       setSent(true);
-      toast.success('Password reset email sent! Please check your inbox.');
+      toast.success(t('auth.resetEmailSent'));
     } catch (error) {
       const message = error.response?.data?.error || 'Failed to send reset email';
       toast.error(message);

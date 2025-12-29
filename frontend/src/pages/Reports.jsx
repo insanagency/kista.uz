@@ -21,7 +21,7 @@ import {
   Legend,
   ResponsiveContainer
 } from 'recharts';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -155,7 +155,7 @@ const Reports = () => {
 
   const handleExportPDF = async () => {
     try {
-      toast.loading('Generating PDF...');
+      const toastId = toast.loading(t('reports.generatingPDF'));
 
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pageWidth = pdf.internal.pageSize.getWidth();
@@ -211,12 +211,12 @@ const Reports = () => {
 
       pdf.save(`financial-report-${Date.now()}.pdf`);
 
-      toast.dismiss();
-      toast.success('PDF exported successfully!');
+      toast.dismiss(toastId);
+      toast.success(t('reports.pdfExportSuccess'));
     } catch (error) {
       console.error('PDF export error:', error);
-      toast.dismiss();
-      toast.error('Failed to export PDF');
+      toast.dismiss(toastId);
+      toast.error(t('reports.pdfExportFailed'));
     }
   };
 

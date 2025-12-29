@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import api from '../lib/api';
 import { Plus, Pencil, Trash2, FolderOpen } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 import CategoryModal from '../components/CategoryModal';
 
 import { Button } from "@/components/ui/button";
