@@ -131,9 +131,9 @@ const Layout = () => {
             <p className="text-sm font-medium leading-none truncate">{user?.full_name}</p>
             <p className="text-xs text-muted-foreground mt-1 truncate">{user?.email}</p>
           </div>
-          <div className="flex items-center gap-1">
-            <LanguageSelector />
-            <CurrencySelector />
+          <div className="grid grid-cols-[1fr,1fr,auto] gap-2 w-full mt-2">
+            <LanguageSelector className="w-full min-w-0" />
+            <CurrencySelector className="w-full min-w-0" />
             <ThemeToggle />
           </div>
         </div>
