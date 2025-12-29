@@ -334,11 +334,10 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
                   </div>
                   <div className="space-y-1">
                     <Label className="text-xs">{t('recurring.startDate')}</Label>
-                    <Input
-                      type="date"
-                      value={recurringData.startDate}
-                      onChange={(e) => setRecurringData({ ...recurringData, startDate: e.target.value })}
-                      className="h-8 text-xs"
+                    <DatePicker
+                      date={recurringData.startDate ? new Date(recurringData.startDate) : undefined}
+                      setDate={(date) => setRecurringData({ ...recurringData, startDate: date ? format(date, 'yyyy-MM-dd') : '' })}
+                      className="h-8 text-xs w-full"
                     />
                   </div>
                 </div>

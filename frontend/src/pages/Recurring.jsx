@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
 import { format } from 'date-fns';
@@ -21,12 +22,13 @@ import { DatePicker } from "@/components/ui/date-picker";
 const Recurring = () => {
   const { t } = useTranslation();
   const { currency, formatAmount } = useCurrency();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [recurring, setRecurring] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingRecurring, setEditingRecurring] = useState(null);
-  const [filterActive, setFilterActive] = useState('all'); // 'all', 'active', 'inactive'
+  const [filterActive, setFilterActive] = useState('all');
 
   const [formData, setFormData] = useState({
     type: 'expense',
@@ -43,6 +45,17 @@ const Recurring = () => {
     fetchRecurring();
     fetchCategories();
   }, [currency]);
+
+  // Handle URL edit param
+  useEffect(() => {
+    const editId = searchParams.get('edit');
+    if (editId && recurring.length > 0) {
+      const recToEdit = recurring.find(r => r.id === parseInt(editId));
+      if (recToEdit) {
+        openModal(recToEdit);
+      }
+    }
+  }, [searchParams, recurring]);
 
   const fetchRecurring = async () => {
     try {
@@ -98,6 +111,7 @@ const Recurring = () => {
       }
 
       setModalOpen(false);
+      setSearchParams({}); // Clear URL params
       resetForm();
       fetchRecurring();
     } catch (error) {
