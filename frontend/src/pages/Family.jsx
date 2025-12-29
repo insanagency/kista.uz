@@ -213,7 +213,7 @@ export default function Family() {
   };
 
   const handleDeactivateCode = async (codeId) => {
-    if (!confirm('Are you sure you want to deactivate this invite code?')) {
+    if (!confirm(t('family.inviteCode.deactivateConfirm'))) {
       return;
     }
 
@@ -295,15 +295,15 @@ export default function Family() {
               <AlertTriangle className="h-5 w-5 text-red-600 dark:text-red-400" />
               <div>
                 <h3 className="font-semibold text-red-900 dark:text-red-100">
-                  Authentication Error
+                  {t('common.authError')}
                 </h3>
                 <p className="text-sm text-red-700 dark:text-red-300">
-                  Your session may have expired. Please log in again.
+                  {t('common.sessionExpired')}
                 </p>
               </div>
             </div>
             <Button variant="destructive" size="sm" onClick={clearAuthAndReload}>
-              Re-login
+              {t('common.relogin')}
             </Button>
           </CardContent>
         </Card>
@@ -388,7 +388,7 @@ export default function Family() {
           {/* Family List */}
           <div className="lg:col-span-1 space-y-3">
             <div className="flex items-center justify-between mb-2 lg:hidden">
-              <span className="font-semibold text-muted-foreground">My Families</span>
+              <span className="font-semibold text-muted-foreground">{t('family.myFamilies')}</span>
             </div>
             {families.map((family) => (
               <Card

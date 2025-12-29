@@ -33,6 +33,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { DatePicker } from "@/components/ui/date-picker";
 
 const Reports = () => {
   const { t } = useTranslation();
@@ -278,18 +279,16 @@ const Reports = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>{t('reports.startDate')}</Label>
-              <Input
-                type="date"
-                value={dateRange.start_date}
-                onChange={(e) => setDateRange({ ...dateRange, start_date: e.target.value })}
+              <DatePicker
+                date={dateRange.start_date ? new Date(dateRange.start_date) : undefined}
+                setDate={(date) => setDateRange({ ...dateRange, start_date: date ? format(date, 'yyyy-MM-dd') : '' })}
               />
             </div>
             <div className="space-y-2">
               <Label>{t('reports.endDate')}</Label>
-              <Input
-                type="date"
-                value={dateRange.end_date}
-                onChange={(e) => setDateRange({ ...dateRange, end_date: e.target.value })}
+              <DatePicker
+                date={dateRange.end_date ? new Date(dateRange.end_date) : undefined}
+                setDate={(date) => setDateRange({ ...dateRange, end_date: date ? format(date, 'yyyy-MM-dd') : '' })}
               />
             </div>
           </div>

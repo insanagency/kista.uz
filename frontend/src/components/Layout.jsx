@@ -127,11 +127,11 @@ const Layout = () => {
           <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold shadow-sm border border-primary/20">
             {user?.full_name?.charAt(0) || 'U'}
           </div>
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 mb-2">
             <p className="text-sm font-medium leading-none truncate">{user?.full_name}</p>
             <p className="text-xs text-muted-foreground mt-1 truncate">{user?.email}</p>
           </div>
-          <div className="grid grid-cols-[1fr,1fr,auto] gap-2 w-full mt-2">
+          <div className="grid grid-cols-[1fr,1fr,auto] gap-2 w-full mt-2 border-t pt-2">
             <LanguageSelector className="w-full min-w-0" />
             <CurrencySelector className="w-full min-w-0" />
             <ThemeToggle />

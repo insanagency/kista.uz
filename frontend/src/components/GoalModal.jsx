@@ -5,6 +5,7 @@ import { X, Check } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../lib/api';
 import { useCurrency } from '../context/CurrencyContext';
+import { format } from "date-fns";
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -23,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { DatePicker } from "@/components/ui/date-picker";
 
 const ICONS = ['🎯', '🏠', '🚗', '✈️', '💍', '📚', '💰', '🎓', '🏖️', '🎮', '📱', '⌚', '🎸', '🏋️', '🎨'];
 const PRIORITIES = ['low', 'medium', 'high'];
@@ -121,10 +123,9 @@ const GoalModal = ({ goal, onClose }) => {
 
           <div className="space-y-2">
             <Label>{t('goals.deadline')}</Label>
-            <Input
-              type="date"
-              value={formData.deadline}
-              onChange={(e) => setFormData({ ...formData, deadline: e.target.value })}
+            <DatePicker
+              date={formData.deadline ? new Date(formData.deadline) : undefined}
+              setDate={(date) => setFormData({ ...formData, deadline: date ? format(date, 'yyyy-MM-dd') : '' })}
             />
           </div>
 

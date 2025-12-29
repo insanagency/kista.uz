@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
+import { DatePicker } from "@/components/ui/date-picker"
 
 const TransactionModal = ({ transaction, categories: initialCategories, onClose }) => {
   const { t } = useTranslation();
@@ -234,13 +235,13 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
             </div>
           </div>
 
+
+
           <div className="space-y-2">
             <Label>{t('transactions.date')}</Label>
-            <Input
-              type="date"
-              required
-              value={formData.transaction_date}
-              onChange={(e) => setFormData({ ...formData, transaction_date: e.target.value })}
+            <DatePicker
+              date={formData.transaction_date ? new Date(formData.transaction_date) : undefined}
+              setDate={(date) => setFormData({ ...formData, transaction_date: date ? format(date, 'yyyy-MM-dd') : '' })}
             />
           </div>
 

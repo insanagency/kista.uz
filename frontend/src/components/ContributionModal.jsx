@@ -5,6 +5,7 @@ import { Plus, Minus } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../lib/api';
 import { useCurrency } from '../context/CurrencyContext';
+import { format } from "date-fns";
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -17,6 +18,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog"
+import { DatePicker } from "@/components/ui/date-picker"
 
 const ContributionModal = ({ goal, onClose }) => {
   const { t } = useTranslation();
@@ -76,7 +78,7 @@ const ContributionModal = ({ goal, onClose }) => {
           </div>
 
           <div className="space-y-2">
-            <Label>{t('common.amount')} *</Label>
+            <Label>{t('common.amount')}</Label>
             <Input
               type="number"
               step="0.01"
@@ -91,10 +93,9 @@ const ContributionModal = ({ goal, onClose }) => {
 
           <div className="space-y-2">
             <Label>{t('common.date')}</Label>
-            <Input
-              type="date"
-              value={formData.contribution_date}
-              onChange={(e) => setFormData({ ...formData, contribution_date: e.target.value })}
+            <DatePicker
+              date={formData.contribution_date ? new Date(formData.contribution_date) : undefined}
+              setDate={(date) => setFormData({ ...formData, contribution_date: date ? format(date, 'yyyy-MM-dd') : '' })}
             />
           </div>
 

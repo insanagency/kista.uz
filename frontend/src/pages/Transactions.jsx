@@ -30,7 +30,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge"; // Need badge? I'll simulate or use div for now. Badge component not created yet. I'll use div with class.
+import { Badge } from "@/components/ui/badge";
+import { DatePicker } from "@/components/ui/date-picker";
 
 const Transactions = () => {
   const navigate = useNavigate();
@@ -256,19 +257,23 @@ const Transactions = () => {
                 </SelectContent>
               </Select>
 
-              <Input
-                type="date"
-                value={filters.start_date}
-                onChange={(e) => setFilters({ ...filters, start_date: e.target.value })}
-                placeholder={t('transactions.startDate')}
-              />
 
-              <Input
-                type="date"
-                value={filters.end_date}
-                onChange={(e) => setFilters({ ...filters, end_date: e.target.value })}
-                placeholder={t('transactions.endDate')}
-              />
+
+              <div className="w-full">
+                <DatePicker
+                  date={filters.start_date ? new Date(filters.start_date) : undefined}
+                  setDate={(date) => setFilters({ ...filters, start_date: date ? format(date, 'yyyy-MM-dd') : '' })}
+                  placeholder={t('transactions.startDate')}
+                />
+              </div>
+
+              <div className="w-full">
+                <DatePicker
+                  date={filters.end_date ? new Date(filters.end_date) : undefined}
+                  setDate={(date) => setFilters({ ...filters, end_date: date ? format(date, 'yyyy-MM-dd') : '' })}
+                  placeholder={t('transactions.endDate')}
+                />
+              </div>
             </div>
             {(filters.type || filters.category_id || filters.start_date || filters.end_date) && (
               <Button

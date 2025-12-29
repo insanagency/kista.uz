@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
+import { format } from 'date-fns';
 import api from '../lib/api';
 import { useCurrency } from '../context/CurrencyContext';
 import { Repeat, Plus, Edit2, Trash2, Calendar, AlertCircle } from 'lucide-react';
@@ -15,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { DatePicker } from "@/components/ui/date-picker";
 
 const Recurring = () => {
   const { t } = useTranslation();
@@ -393,19 +395,16 @@ const Recurring = () => {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>{t('recurring.startDate')}</Label>
-                <Input
-                  type="date"
-                  required
-                  value={formData.start_date}
-                  onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
+                <DatePicker
+                  date={formData.start_date ? new Date(formData.start_date) : undefined}
+                  setDate={(date) => setFormData({ ...formData, start_date: date ? format(date, 'yyyy-MM-dd') : '' })}
                 />
               </div>
               <div className="space-y-2">
                 <Label>{t('recurring.endDate')}</Label>
-                <Input
-                  type="date"
-                  value={formData.end_date}
-                  onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
+                <DatePicker
+                  date={formData.end_date ? new Date(formData.end_date) : undefined}
+                  setDate={(date) => setFormData({ ...formData, end_date: date ? format(date, 'yyyy-MM-dd') : '' })}
                 />
               </div>
             </div>

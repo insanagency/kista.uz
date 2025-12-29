@@ -236,13 +236,13 @@ export default function Analytics() {
                       <Bar
                         dataKey="currentYear.expense"
                         fill="#10b981"
-                        name={`${yoyData.totals.currentYear.year} Expense`}
+                        name={`${yoyData.totals.currentYear.year} ${t('analytics.expense')}`}
                         radius={[4, 4, 0, 0]}
                       />
                       <Bar
                         dataKey="lastYear.expense"
                         fill="#3b82f6"
-                        name={`${yoyData.totals.lastYear.year} Expense`}
+                        name={`${yoyData.totals.lastYear.year} ${t('analytics.expense')}`}
                         radius={[4, 4, 0, 0]}
                       />
                     </BarChart>
