@@ -2,7 +2,8 @@
   "app": {
     "name": "AuroraLedger",
     "tagline": "Manage your finances with ease",
-    "description": "Modern Personal Finance Management"
+    "description": "Modern Personal Finance Management",
+    "financeManager": "Finance Manager"
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -16,7 +17,9 @@
     "family": "Family",
     "profile": "Profile",
     "logout": "Logout",
-    "admin": "Admin"
+    "admin": "Admin",
+    "overview": "Overview",
+    "management": "Management"
   },
   "auth": {
     "login": "Login",
@@ -45,6 +48,7 @@
   },
   "dashboard": {
     "title": "Dashboard",
+    "overview": "Financial overview for {{date}}",
     "overviewFor": "Overview for",
     "balance": "Balance",
     "income": "Income",
@@ -313,6 +317,8 @@
   "profile": {
     "title": "Profile Settings",
     "subtitle": "Manage your account settings and preferences",
+    "updateDetailsDescription": "Update your personal details here.",
+    "secureAccountDescription": "Manage your account security.",
     "personalInfo": "Personal Information",
     "fullName": "Full Name",
     "fullNamePlaceholder": "Enter your full name",
