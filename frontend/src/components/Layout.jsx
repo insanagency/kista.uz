@@ -53,7 +53,7 @@ const Layout = () => {
         <div className="flex items-center gap-3">
           <div>
             <img src="/soqqam-logo.svg" alt="Soqqam.uz" className="h-5 object-contain mb-1 dark:hidden block" />
-            <img src="/soqqam-logo-white.svg" alt="Soqqam.uz" className="h-5 object-contain mb-1 hidden dark:block" />
+            <img src="/soqqam-logo-dark.svg" alt="Soqqam.uz" className="h-5 object-contain mb-1 hidden dark:block" />
             <p className="text-sm font-medium text-muted-foreground ml-0.5">{t('app.financeManager')}</p>
           </div>
         </div>

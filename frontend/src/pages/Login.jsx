@@ -50,7 +50,7 @@ const Login = () => {
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
           <img src="/soqqam-logo.svg" alt="Soqqam.uz" className="h-8 mx-auto mb-2 dark:hidden block" />
-          <img src="/soqqam-logo-white.svg" alt="Soqqam.uz" className="h-8 mx-auto mb-2 hidden dark:block" />
+          <img src="/soqqam-logo-dark.svg" alt="Soqqam.uz" className="h-8 mx-auto mb-2 hidden dark:block" />
           <p className="text-muted-foreground">{t('auth.loginDescription')}</p>
         </div>
 
