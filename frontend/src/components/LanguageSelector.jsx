@@ -10,9 +10,9 @@ import {
 } from "@/components/ui/select"
 
 const LANGUAGES = [
-  { code: 'uz', name: 'Uzb', flag: '🇺🇿' },
-  { code: 'ru', name: 'Рус', flag: '🇷🇺' },
-  { code: 'en', name: 'Eng', flag: '🇺🇸' },
+  { code: 'uz', name: "O'zbek", flag: '🇺🇿' },
+  { code: 'ru', name: 'Русский', flag: '🇷🇺' },
+  { code: 'en', name: 'English', flag: '🇺🇸' },
 ];
 
 export default function LanguageSelector({ className = '' }) {
