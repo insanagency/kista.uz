@@ -134,9 +134,11 @@ const Layout = () => {
         </NavLink>
 
         <div className="space-y-2 w-full mt-2 border-t pt-2">
-          <LanguageSelector />
+          <div className="flex items-center gap-2">
+            <LanguageSelector className="flex-1" />
+            <ThemeToggle showLabel={false} className="w-auto px-2 justify-center" />
+          </div>
           <CurrencySelector />
-          <ThemeToggle />
         </div>
 
         <div className="mt-2 space-y-2 pt-2 border-t">
