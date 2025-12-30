@@ -50,6 +50,7 @@
   },
   "dashboard": {
     "title": "Панель",
+    "greeting": "Добро пожаловать,",
     "overview": "Финансовый обзор на {{date}}",
     "overviewFor": "Обзор за",
     "balance": "Баланс",

@@ -52,6 +52,7 @@
   },
   "dashboard": {
     "title": "Dashboard",
+    "greeting": "Welcome back,",
     "overview": "Financial overview for {{date}}",
     "overviewFor": "Overview for",
     "balance": "Balance",
