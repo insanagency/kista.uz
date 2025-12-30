@@ -5,6 +5,7 @@ import api from '../lib/api';
 import { Plus, Pencil, Trash2, FolderOpen } from 'lucide-react';
 import { toast } from 'sonner';
 import CategoryModal from '../components/CategoryModal';
+import { CardSkeleton } from '../components/LoadingSkeleton';
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -134,7 +135,9 @@ const Categories = () => {
       {/* Categories Grid */}
       <div className="space-y-4">
         {loading ? (
-          <div className="text-center py-12">Loading...</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {[...Array(8)].map((_, i) => <CardSkeleton key={i} />)}
+          </div>
         ) : filteredCategories.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {filteredCategories.map((category) => (
@@ -168,7 +171,7 @@ const Categories = () => {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-8 w-8 text-muted-foreground hover:text-blue-600"
+                      className="h-8 w-8 text-muted-foreground hover:text-foreground"
                       onClick={() => handleEdit(category)}
                     >
                       <Pencil size={14} />
@@ -176,7 +179,7 @@ const Categories = () => {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-8 w-8 text-muted-foreground hover:text-red-600"
+                      className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
                       onClick={() => handleDelete(category.id)}
                     >
                       <Trash2 size={14} />
@@ -188,7 +191,7 @@ const Categories = () => {
           </div>
         ) : (
           <Card className="py-12 flex flex-col items-center justify-center text-center">
-            <FolderOpen className="h-16 w-16 text-muted-foreground opacity-50 mb-4" />
+            <FolderOpen className="h-16 w-16 text-muted-foreground opacity-20 mb-4" />
             <p className="text-muted-foreground mb-4">{t('categories.noCategories')}</p>
             {filter === 'all' && (
               <Button onClick={handleAdd}>

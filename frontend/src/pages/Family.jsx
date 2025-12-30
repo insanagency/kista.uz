@@ -279,8 +279,19 @@ export default function Family() {
 
   if (loading && families.length === 0) {
     return (
-      <div className="flex justify-center items-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      <div className="space-y-6 animate-pulse">
+        <div className="flex justify-between items-center mb-6">
+          <div className="space-y-2">
+            <div className="h-8 w-48 bg-muted rounded"></div>
+            <div className="h-4 w-64 bg-muted rounded"></div>
+          </div>
+          <div className="h-10 w-32 bg-muted rounded"></div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="h-40 bg-muted rounded-lg"></div>
+          ))}
+        </div>
       </div>
     );
   }
@@ -371,7 +382,7 @@ export default function Family() {
       {families.length === 0 ? (
         <Card className="flex flex-col items-center justify-center py-12 text-center">
           <CardContent>
-            <Users className="h-16 w-16 text-muted-foreground mx-auto mb-4 opacity-50" />
+            <Users className="h-16 w-16 text-muted-foreground mx-auto mb-4 opacity-20" />
             <h3 className="text-lg font-semibold mb-2">
               {t('family.noFamilies')}
             </h3>

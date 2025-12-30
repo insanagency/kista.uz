@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { BudgetCardSkeleton } from '../components/LoadingSkeleton';
 
 const Budgets = () => {
   const { t } = useTranslation();
@@ -96,7 +97,7 @@ const Budgets = () => {
     // I'll stick to the previous custom progress bar logic but wrapped in cleaner code, or just use Shadcn Progress and accept primary color.
     // Actually, distinct colors (Green/Yellow/Red) are important for Budgets.
     // Use the custom div implementation for now, it's simple and flexible.
-    return percentage >= 100 ? 'bg-red-500' : percentage >= 80 ? 'bg-yellow-500' : 'bg-green-500';
+    return percentage >= 100 ? 'bg-destructive' : percentage >= 80 ? 'bg-yellow-500' : 'bg-green-500';
   };
 
   const totalBudget = budgets.reduce((sum, b) => sum + parseFloat(b.amount || 0), 0);
@@ -131,7 +132,7 @@ const Budgets = () => {
       {budgets.length > 0 && (
         <Card className="bg-muted/50">
           <CardHeader>
-            <CardTitle>{t('budgets.overallBudget')}</CardTitle>
+            <CardTitle className="text-lg font-semibold">{t('budgets.overallBudget')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -161,7 +162,9 @@ const Budgets = () => {
 
       <div className="grid gap-4">
         {loading ? (
-          <div className="text-center py-12">Loading...</div>
+          <div className="grid gap-4">
+            {[...Array(3)].map((_, i) => <BudgetCardSkeleton key={i} />)}
+          </div>
         ) : budgets.length > 0 ? (
           budgets.map((budget) => {
             const amount = parseFloat(budget.amount || 0);
@@ -170,7 +173,7 @@ const Budgets = () => {
             const percentage = amount > 0 ? (spent / amount * 100) : 0;
 
             return (
-              <Card key={budget.id} className="hover:shadow-md transition-all">
+              <Card key={budget.id} className="shadow-none border hover:bg-muted/30 transition-colors">
                 <CardContent className="p-4 sm:p-6">
                   <div className="flex flex-col sm:flex-row items-start justify-between gap-4 mb-4">
                     <div className="flex items-start gap-4 flex-1">
@@ -181,7 +184,7 @@ const Budgets = () => {
                         {budget.category_name?.charAt(0)}
                       </div>
                       <div className="space-y-1">
-                        <h3 className="font-bold text-lg">{budget.category_name}</h3>
+                        <h3 className="font-semibold text-base">{budget.category_name}</h3>
                         <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
                           <span>{t('budgets.totalBudget')}: {formatCurrency(amount)}</span>
                           <span>{t('budgets.totalSpent')}: {formatCurrency(spent)}</span>
@@ -230,7 +233,7 @@ const Budgets = () => {
           })
         ) : (
           <Card className="py-12 flex flex-col items-center justify-center text-center">
-            <Wallet className="h-16 w-16 text-muted-foreground opacity-50 mb-4" />
+            <Wallet className="h-16 w-16 text-muted-foreground opacity-20 mb-4" />
             <p className="text-lg font-medium mb-2">{t('budgets.noBudgets')}</p>
             <Button onClick={handleAdd}>
               <Plus size={16} className="mr-2" />

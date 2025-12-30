@@ -27,7 +27,7 @@ import { processRecurringTransactions } from './utils/recurring-processor.js';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 // Logging Middleware
 app.use((req, res, next) => {

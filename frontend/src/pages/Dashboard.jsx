@@ -11,6 +11,7 @@ import {
   Wallet,
   ArrowRight,
   Plus,
+  ArrowRightLeft,
 } from 'lucide-react';
 import { format, startOfMonth, endOfMonth } from 'date-fns';
 import { enUS, vi, es, fr, de, zhCN, ja, ko, pt, ru, uz } from 'date-fns/locale';
@@ -214,54 +215,58 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {t('dashboard.balance')}
-            </CardTitle>
-            <Wallet className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {balance >= 0 ? formatCurrency(balance) : '-' + formatCurrency(Math.abs(balance))}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="shadow-sm hover:shadow-md transition-shadow">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between space-y-0 mb-1">
+              <p className="text-lg font-semibold text-foreground">
+                {t('dashboard.balance')}
+              </p>
+              <div className={`p-3 rounded-full ${balance >= 0 ? 'bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400' : 'bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400'}`}>
+                <Wallet className="h-6 w-6" />
+              </div>
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <div className={`text-3xl font-bold break-all ${balance >= 0 ? 'text-blue-600 dark:text-blue-400' : 'text-orange-600 dark:text-orange-400'}`}>
+              {formatCurrency(balance)}
+            </div>
+            <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
+              <TrendingUp className="h-3 w-3 text-blue-500" />
               +20.1% {t('dashboard.fromLastMonth')}
             </p>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {t('dashboard.income')}
-            </CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600 dark:text-green-500">
+        <Card className="shadow-sm hover:shadow-md transition-shadow">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between space-y-0 mb-1">
+              <p className="text-lg font-semibold text-foreground">{t('dashboard.income')}</p>
+              <div className="p-3 bg-green-100 dark:bg-green-900/40 rounded-full text-green-600 dark:text-green-400">
+                <TrendingUp className="h-6 w-6" />
+              </div>
+            </div>
+            <div className="text-3xl font-bold text-green-600 dark:text-green-500 break-all">
               {formatCurrency(income)}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
+              <TrendingUp className="h-3 w-3 text-green-500" />
               +10.5% {t('dashboard.fromLastMonth')}
             </p>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {t('dashboard.expenses')}
-            </CardTitle>
-            <TrendingDown className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-red-600 dark:text-red-500">
+        <Card className="shadow-sm hover:shadow-md transition-shadow">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between space-y-0 mb-1">
+              <p className="text-lg font-semibold text-foreground">{t('dashboard.expenses')}</p>
+              <div className="p-3 bg-red-100 dark:bg-red-900/40 rounded-full text-red-600 dark:text-red-400">
+                <TrendingDown className="h-6 w-6" />
+              </div>
+            </div>
+            <div className="text-3xl font-bold text-red-600 dark:text-red-500 break-all">
               {formatCurrency(expense)}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
+              <TrendingDown className="h-3 w-3 text-red-500" />
               -4% {t('dashboard.fromLastMonth')}
             </p>
           </CardContent>
@@ -270,14 +275,14 @@ const Dashboard = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Expense Breakdown */}
-        <Card className="hover:shadow-md transition-all">
-          <CardHeader>
-            <CardTitle>{t('dashboard.expenseBreakdown')}</CardTitle>
+        <Card className="shadow-none border">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle className="text-lg font-semibold">{t('dashboard.expenseBreakdown')}</CardTitle>
           </CardHeader>
           <CardContent>
             {expenseByCategoryConverted.length > 0 ? (
               <>
-                <div className="w-full h-[280px]">
+                <div className="w-full h-[220px]">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
@@ -322,7 +327,7 @@ const Dashboard = () => {
                 </div>
               </>
             ) : (
-              <div className="flex flex-col items-center justify-center h-[300px] text-muted-foreground">
+              <div className="flex flex-col items-center justify-center h-[200px] text-muted-foreground">
                 <Wallet className="h-12 w-12 mb-2 opacity-20" />
                 <p>{t('dashboard.noExpenseData')}</p>
               </div>
@@ -335,7 +340,7 @@ const Dashboard = () => {
           {forecastData && forecastData.forecasts && forecastData.forecasts.length > 0 && (
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-base font-semibold">📈 Next Month Forecast</CardTitle>
+                <CardTitle className="text-lg font-semibold">📈 Next Month Forecast</CardTitle>
                 <span className="text-xs text-muted-foreground">Based on last 3 months</span>
               </CardHeader>
               <CardContent>
@@ -384,10 +389,10 @@ const Dashboard = () => {
           )}
 
           {/* Recent Transactions */}
-          <Card className="hover:shadow-md transition-all">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>{t('dashboard.recentTransactions')}</CardTitle>
-              <Button variant="ghost" size="sm" asChild className="text-primary hover:text-primary/90">
+          <Card className="shadow-none border">
+            <CardHeader className="relative">
+              <CardTitle className="text-lg font-semibold">{t('dashboard.recentTransactions')}</CardTitle>
+              <Button variant="ghost" size="sm" asChild className="absolute right-6 top-3 text-primary hover:text-primary/90">
                 <Link to="/transactions" className="flex items-center gap-1">
                   {t('dashboard.viewAll')} <ArrowRight size={16} />
                 </Link>
@@ -420,7 +425,8 @@ const Dashboard = () => {
                     </div>
                   ))
                 ) : (
-                  <div className="text-center py-8 text-muted-foreground">
+                  <div className="flex flex-col items-center justify-center h-[200px] text-muted-foreground">
+                    <ArrowRightLeft className="h-12 w-12 mb-2 opacity-20" />
                     {t('dashboard.noTransactions')}
                   </div>
                 )}
@@ -432,9 +438,9 @@ const Dashboard = () => {
 
       {/* Top Categories */}
       {expenseByCategoryConverted.length > 0 && (
-        <Card className="hover:shadow-md transition-all">
+        <Card className="shadow-none border">
           <CardHeader>
-            <CardTitle>{t('dashboard.topSpendingCategories')}</CardTitle>
+            <CardTitle className="text-lg font-semibold">{t('dashboard.topSpendingCategories')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">

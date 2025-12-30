@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import api from '../lib/api';
 import { useCurrency } from '../context/CurrencyContext';
-import { Calendar, Download, TrendingUp, TrendingDown, FileText, FileSpreadsheet, ChevronDown } from 'lucide-react';
+import { Calendar, Download, TrendingUp, TrendingDown, FileText, FileSpreadsheet, ChevronDown, Wallet } from 'lucide-react';
 import { format, subMonths, startOfMonth, endOfMonth } from 'date-fns';
 import jsPDF from 'jspdf';
 import {
@@ -22,6 +22,7 @@ import {
   ResponsiveContainer
 } from 'recharts';
 import { toast } from 'sonner';
+import { DashboardSkeleton } from '../components/LoadingSkeleton';
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -221,11 +222,7 @@ const Reports = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   const income = overview?.totals?.income || 0;
@@ -296,37 +293,40 @@ const Reports = () => {
       </Card>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="shadow-sm hover:shadow-md transition-shadow">
           <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-2">
-              <p className="text-sm font-medium text-muted-foreground">{t('reports.totalIncome')}</p>
-              <div className="p-2 bg-green-100 dark:bg-green-900/20 rounded-full text-green-600 dark:text-green-400">
-                <TrendingUp size={16} />
+            <div className="flex items-center justify-between mb-1">
+              <p className="text-lg font-semibold text-foreground">{t('reports.totalIncome')}</p>
+              <div className="p-3 bg-green-100 dark:bg-green-900/40 rounded-full text-green-600 dark:text-green-400">
+                <TrendingUp className="h-6 w-6" />
               </div>
             </div>
             <p className="text-3xl font-bold text-green-600 dark:text-green-500 break-all">{formatCurrency(income)}</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="shadow-sm hover:shadow-md transition-shadow">
           <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-2">
-              <p className="text-sm font-medium text-muted-foreground">{t('reports.totalExpenses')}</p>
-              <div className="p-2 bg-red-100 dark:bg-red-900/20 rounded-full text-red-600 dark:text-red-400">
-                <TrendingDown size={16} />
+            <div className="flex items-center justify-between mb-1">
+              <p className="text-lg font-semibold text-foreground">{t('reports.totalExpenses')}</p>
+              <div className="p-3 bg-red-100 dark:bg-red-900/40 rounded-full text-red-600 dark:text-red-400">
+                <TrendingDown className="h-6 w-6" />
               </div>
             </div>
             <p className="text-3xl font-bold text-red-600 dark:text-red-500 break-all">{formatCurrency(expense)}</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="shadow-sm hover:shadow-md transition-shadow">
           <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-2">
-              <p className="text-sm font-medium text-muted-foreground">
+            <div className="flex items-center justify-between mb-1">
+              <p className="text-lg font-semibold text-foreground">
                 {t('reports.netBalance')}
               </p>
+              <div className={`p-3 rounded-full ${balance >= 0 ? 'bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400' : 'bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400'}`}>
+                <Wallet className="h-6 w-6" />
+              </div>
             </div>
             <p className={`text-3xl font-bold break-all ${balance >= 0 ? 'text-blue-600 dark:text-blue-400' : 'text-orange-600 dark:text-orange-400'}`}>
               {balance >= 0 ? '+' : ''}{formatCurrency(balance)}

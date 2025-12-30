@@ -1,6 +1,7 @@
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
+import { DashboardSkeleton } from './LoadingSkeleton';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import CurrencySelector from './CurrencySelector';
@@ -18,9 +19,11 @@ import {
   User,
   LogOut,
   Menu,
+  ArrowRight,
 } from 'lucide-react';
 
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
@@ -119,15 +122,16 @@ const Layout = () => {
 
       {/* User Footer */}
       {/* User Footer */}
-      <div className="p-4 bg-muted/20 border-t-0 border-none">
+      <div className="p-4 border-t">
         <NavLink
           to="/profile"
           onClick={() => setOpen(false)}
           className="flex items-center gap-3 px-2 mb-2 p-2 rounded-md hover:bg-muted transition-colors cursor-pointer group"
         >
-          <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold shadow-sm border border-primary/20 group-hover:bg-primary/20 transition-colors">
-            {user?.full_name?.charAt(0) || 'U'}
-          </div>
+          <Avatar className="h-10 w-10 border border-border">
+            <AvatarImage src={user?.avatar_url} />
+            <AvatarFallback>{user?.full_name?.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'U'}</AvatarFallback>
+          </Avatar>
           <div className="flex-1 min-w-0 text-left">
             <p className="text-sm font-medium leading-none truncate">{user?.full_name}</p>
             <p className="text-xs text-muted-foreground mt-1 truncate">{user?.email}</p>
@@ -144,16 +148,15 @@ const Layout = () => {
 
         <div className="mt-2 space-y-2 pt-2">
           <Button
-            variant="secondary"
-            size="sm"
-            className="w-full justify-start gap-2 h-9 font-medium text-destructive hover:text-destructive hover:bg-destructive/10 border border-destructive/10"
+            variant="ghost"
+            className="w-full justify-between h-9 font-medium bg-destructive/10 text-destructive hover:bg-destructive/20 hover:text-destructive group"
             onClick={() => {
               logout();
               setOpen(false);
             }}
           >
-            <LogOut size={16} />
             {t('nav.logout')}
+            <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
           </Button>
         </div>
       </div>
@@ -192,7 +195,9 @@ const Layout = () => {
       {/* Main Content */}
       <main className="lg:ml-64 min-h-screen pt-16 lg:pt-0 pb-10 transition-all duration-200">
         <div className="px-6 py-6 lg:px-10 lg:py-8 max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <Outlet />
+          <Suspense fallback={<DashboardSkeleton />}>
+            <Outlet />
+          </Suspense>
         </div>
       </main>
     </div>

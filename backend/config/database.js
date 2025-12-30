@@ -5,11 +5,14 @@ dotenv.config();
 
 const { Pool } = pg;
 
+const isProduction = process.env.NODE_ENV === 'production';
+const connectionString = process.env.DATABASE_URL;
+
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
+  connectionString,
+  ssl: isProduction || connectionString.includes('neon.tech') ? {
     rejectUnauthorized: false
-  }
+  } : false
 });
 
 // Test connection

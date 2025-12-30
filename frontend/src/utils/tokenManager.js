@@ -8,7 +8,8 @@
  */
 export const isTokenExpired = (token) => {
   if (!token) return true;
-  
+  if (token.startsWith('mock_token_')) return false; // Allow local mock tokens
+
   try {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -19,12 +20,12 @@ export const isTokenExpired = (token) => {
         .join('')
     );
     const decoded = JSON.parse(jsonPayload);
-    
+
     // Check if token is expired (with 5 minute buffer)
     const expirationTime = decoded.exp * 1000;
     const now = Date.now();
     const buffer = 5 * 60 * 1000; // 5 minutes
-    
+
     return now > (expirationTime - buffer);
   } catch (error) {
     console.error('Error checking token expiration:', error);
@@ -39,7 +40,8 @@ export const isTokenExpired = (token) => {
  */
 export const getTokenExpiration = (token) => {
   if (!token) return null;
-  
+  if (token.startsWith('mock_token_')) return new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
   try {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -50,7 +52,7 @@ export const getTokenExpiration = (token) => {
         .join('')
     );
     const decoded = JSON.parse(jsonPayload);
-    
+
     return new Date(decoded.exp * 1000);
   } catch (error) {
     return null;
@@ -62,14 +64,14 @@ export const getTokenExpiration = (token) => {
  */
 export const cleanupExpiredTokens = () => {
   const token = localStorage.getItem('token');
-  
+
   if (token && isTokenExpired(token)) {
     console.log('🗑️ Cleaning up expired token');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     return true;
   }
-  
+
   return false;
 };
 
@@ -79,16 +81,16 @@ export const cleanupExpiredTokens = () => {
  */
 export const validateAndCleanupToken = () => {
   const token = localStorage.getItem('token');
-  
+
   if (!token) {
     return false;
   }
-  
+
   if (isTokenExpired(token)) {
     cleanupExpiredTokens();
     return false;
   }
-  
+
   return true;
 };
 
@@ -99,10 +101,10 @@ export const validateAndCleanupToken = () => {
 export const getTimeUntilExpiration = () => {
   const token = localStorage.getItem('token');
   if (!token) return 0;
-  
+
   const expiration = getTokenExpiration(token);
   if (!expiration) return 0;
-  
+
   const timeRemaining = expiration.getTime() - Date.now();
   return Math.max(0, timeRemaining);
 };
@@ -113,14 +115,14 @@ export const getTimeUntilExpiration = () => {
  */
 export const getTokenExpirationMessage = () => {
   const timeRemaining = getTimeUntilExpiration();
-  
+
   if (timeRemaining === 0) {
     return 'Token expired';
   }
-  
+
   const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
   const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  
+
   if (days > 0) {
     return `Expires in ${days} day${days > 1 ? 's' : ''}`;
   } else if (hours > 0) {

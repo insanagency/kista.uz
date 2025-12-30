@@ -185,7 +185,7 @@ const Goals = () => {
         </div>
       ) : (
         <Card className="flex flex-col items-center justify-center py-12 text-center">
-          <Target className="h-16 w-16 text-muted-foreground opacity-50 mb-4" />
+          <Target className="h-16 w-16 text-muted-foreground opacity-20 mb-4" />
           <h3 className="text-lg font-semibold mb-2">{t('goals.noGoals')}</h3>
           <p className="text-muted-foreground mb-6 max-w-sm">
             Set savings goals like "New Laptop" or "Vacation" and track your progress!

@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 import api from '../lib/api';
 import { useCurrency } from '../context/CurrencyContext';
 import { Repeat, Plus, Edit2, Trash2, Calendar, AlertCircle } from 'lucide-react';
+import { ListSkeleton } from '../components/LoadingSkeleton';
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -233,10 +234,10 @@ const Recurring = () => {
       </div>
 
       {loading ? (
-        <div className="text-center py-12">Loading...</div>
+        <ListSkeleton items={5} />
       ) : filteredRecurring.length === 0 ? (
         <Card className="flex flex-col items-center justify-center py-12 text-center">
-          <AlertCircle className="h-12 w-12 text-muted-foreground opacity-50 mb-4" />
+          <AlertCircle className="h-12 w-12 text-muted-foreground opacity-20 mb-4" />
           <p className="text-muted-foreground">{t('transactions.noTransactions')}</p>
         </Card>
       ) : (
@@ -294,10 +295,10 @@ const Recurring = () => {
                       />
                     </div>
                     <Button variant="ghost" size="icon" onClick={() => openModal(rec)}>
-                      <Edit2 size={16} className="text-muted-foreground" />
+                      <Edit2 size={16} className="text-muted-foreground hover:text-foreground" />
                     </Button>
-                    <Button variant="ghost" size="icon" onClick={() => handleDelete(rec.id)}>
-                      <Trash2 size={16} className="text-destructive" />
+                    <Button variant="ghost" size="icon" onClick={() => handleDelete(rec.id)} className="text-muted-foreground hover:text-destructive hover:bg-destructive/10">
+                      <Trash2 size={16} />
                     </Button>
                   </div>
                 </div>

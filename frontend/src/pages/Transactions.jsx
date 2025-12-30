@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import api from '../lib/api';
 import { useCurrency } from '../context/CurrencyContext';
-import { Plus, Pencil, Trash2, Filter, Download, Repeat, Calendar, Wallet } from 'lucide-react';
+import { Plus, Pencil, Trash2, Filter, Download, Repeat, Calendar, Wallet, ArrowRightLeft } from 'lucide-react';
 import { format } from 'date-fns';
 import { enUS, vi, es, fr, de, zhCN, ja, ko, pt, ru } from 'date-fns/locale';
 import { toast } from 'sonner';
@@ -181,7 +181,7 @@ const Transactions = () => {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">{t('transactions.title')}</h1>
-          <div className="flex bg-muted p-1 rounded-lg">
+          <div className="flex bg-muted p-1 rounded-lg mt-6">
             <button
               onClick={() => setViewMode('transactions')}
               className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${viewMode === 'transactions'
@@ -189,7 +189,7 @@ const Transactions = () => {
                 : 'text-muted-foreground hover:text-foreground'
                 }`}
             >
-              📊 {t('transactions.title')}
+              {t('transactions.title')}
             </button>
             <button
               onClick={() => setViewMode('recurring')}
@@ -198,7 +198,7 @@ const Transactions = () => {
                 : 'text-muted-foreground hover:text-foreground'
                 }`}
             >
-              🔁 {t('recurring.title')}
+              {t('recurring.title')}
             </button>
           </div>
         </div>
@@ -223,7 +223,7 @@ const Transactions = () => {
           <CardContent className="p-4 sm:p-6">
             <div className="flex items-center gap-2 mb-4 text-muted-foreground">
               <Filter size={20} />
-              <h2 className="text-base font-semibold text-foreground">{t('transactions.filters')}</h2>
+              <h2 className="text-lg font-semibold text-foreground">{t('transactions.filters')}</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
               <Select
@@ -329,12 +329,12 @@ const Transactions = () => {
                               {transaction.description || '-'}
                             </TableCell>
                             <TableCell>
-                              <div className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${transaction.type === 'income'
-                                ? 'border-transparent bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
-                                : 'border-transparent bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
-                                }`}>
+                              <Badge
+                                variant={transaction.type === 'income' ? 'default' : 'destructive'}
+                                className={`${transaction.type === 'income' ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'}`}
+                              >
                                 {transaction.type}
-                              </div>
+                              </Badge>
                             </TableCell>
                             <TableCell className="text-right font-bold">
                               <span className={transaction.type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}>
@@ -401,7 +401,7 @@ const Transactions = () => {
               </>
             ) : (
               <div className="flex flex-col items-center justify-center py-12 text-center">
-                <Wallet className="h-16 w-16 text-muted-foreground mb-4 opacity-50" />
+                <ArrowRightLeft className="h-16 w-16 text-muted-foreground mb-4 opacity-20" />
                 <h3 className="text-lg font-semibold mb-2">
                   {t('transactions.noTransactions')}
                 </h3>
@@ -427,7 +427,7 @@ const Transactions = () => {
           ) : recurringList.length === 0 ? (
             <Card className="text-center py-12">
               <CardContent className="flex flex-col items-center">
-                <Repeat className="h-12 w-12 text-muted-foreground mb-4 opacity-50" />
+                <Repeat className="h-12 w-12 text-muted-foreground mb-4 opacity-20" />
                 <p className="text-muted-foreground mb-3">{t('recurring.noRecurring')}</p>
                 <p className="text-sm text-muted-foreground mb-4">
                   💡 Tick "Make Recurring" checkbox when adding transactions
@@ -441,17 +441,17 @@ const Transactions = () => {
           ) : (
             <div className="space-y-3">
               {recurringList.map((rec) => (
-                <Card key={rec.id} className="hover:shadow-md transition-all">
+                <Card key={rec.id} className="shadow-none border hover:bg-muted/30 transition-colors">
                   <CardContent className="p-4 sm:p-6">
                     <div className="flex items-start justify-between">
                       <div className="flex-1 space-y-2">
                         <div className="flex items-center gap-2">
-                          <span className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${rec.type === 'income'
-                            ? 'border-transparent bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
-                            : 'border-transparent bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
-                            }`}>
+                          <Badge
+                            variant={rec.type === 'income' ? 'default' : 'destructive'}
+                            className={`${rec.type === 'income' ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'}`}
+                          >
                             {t(`transactions.${rec.type}`)}
-                          </span>
+                          </Badge>
                           <Badge variant="outline" className="text-blue-600 bg-blue-50 dark:bg-blue-900/20 border-blue-200">
                             {t(`recurring.${rec.frequency}`)}
                           </Badge>
@@ -460,12 +460,12 @@ const Transactions = () => {
                               ✓ {t('recurring.active')}
                             </Badge>
                           ) : (
-                            <Badge variant="outline" className="text-gray-500 bg-gray-50 dark:bg-gray-900/20 border-gray-200">
+                            <Badge variant="outline" className="text-muted-foreground bg-muted border-border">
                               ○ {t('recurring.inactive')}
                             </Badge>
                           )}
                         </div>
-                        <h3 className="text-xl font-bold">{formatAmount(rec.amount, rec.currency)}</h3>
+                        <h3 className="text-base font-semibold">{formatAmount(rec.amount, rec.currency)}</h3>
                         {(rec.category_name || rec.description) && (
                           <div className="text-sm text-muted-foreground">
                             {rec.category_name && <span className="mr-3 font-medium text-foreground">📁 {rec.category_name}</span>}
@@ -485,21 +485,11 @@ const Transactions = () => {
                           variant="ghost"
                           size="icon"
                           onClick={() => {
-                            setEditingTransaction(rec); // Assuming recur edit uses same modal logic (or specialized logic, keeping original behavior)
-                            // The original behavior navigated to /recurring?edit=id. 
-                            // But here we are IN transactions page maybe? 
-                            // wait, Transactions page HAS Recurring tab. 
-                            // Reuse logic:
-                            // The original code handled manual navigation or kept it separate.
-                            // I'll stick to what original code did: navigate('/recurring?edit=...')
-                            // Wait, Transactions page has viewMode='recurring'. Using window.location.href='/recurring' in shortcuts.
-                            // Let's inspect original code logic about edit.
-                            // Original: navigate(`/recurring?edit=${rec.id}`)
                             navigate(`/recurring?edit=${rec.id}`);
                           }}
-                          className="h-9 w-9"
+                          className="h-9 w-9 text-muted-foreground hover:text-foreground"
                         >
-                          <Pencil size={16} className="text-blue-600 dark:text-blue-400" />
+                          <Pencil size={16} />
                         </Button>
 
                         {/* Toggle and Delete buttons */}
@@ -534,9 +524,9 @@ const Transactions = () => {
                               }
                             }
                           }}
-                          className="h-9 w-9"
+                          className="h-9 w-9 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
                         >
-                          <Trash2 size={16} className="text-red-600 dark:text-red-400" />
+                          <Trash2 size={16} />
                         </Button>
                       </div>
                     </div>

@@ -2,6 +2,7 @@
 import { Edit2, Trash2, Plus, Calendar, CheckCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { differenceInDays } from 'date-fns';
+import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -24,14 +25,14 @@ const GoalCard = ({ goal, onEdit, onDelete, onContribute, formatCurrency, conver
 
 
   return (
-    <Card className="hover:shadow-md transition-all">
+    <Card className="shadow-none border hover:bg-muted/30 transition-colors">
       <CardContent className="p-6 space-y-4">
         {/* Header */}
         <div className="flex items-start justify-between">
           <div className="flex-1 space-y-1">
             <div className="flex items-center gap-2">
               <span className="text-xl">{goal.icon || '🎯'}</span>
-              <h3 className="font-semibold">{goal.name}</h3>
+              <h3 className="font-semibold text-base">{goal.name}</h3>
             </div>
             {goal.category && (
               <p className="text-sm text-muted-foreground">{goal.category}</p>

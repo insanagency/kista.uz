@@ -1,9 +1,10 @@
 import express from 'express';
-import { 
-  getAllRates, 
-  convertCurrency, 
+import {
+  getAllRates,
+  convertCurrency,
   formatCurrency,
-  POPULAR_CURRENCIES 
+  getExchangeRate,
+  POPULAR_CURRENCIES
 } from '../utils/currency.js';
 import { authenticateToken } from '../middleware/auth.js';
 import pool from '../config/database.js';
@@ -20,7 +21,7 @@ router.get('/rate/:from/:to', async (req, res) => {
   try {
     const { from, to } = req.params;
     const rate = await getExchangeRate(from.toUpperCase(), to.toUpperCase());
-    
+
     res.json({
       from: from.toUpperCase(),
       to: to.toUpperCase(),
@@ -38,7 +39,7 @@ router.get('/rates/:base', async (req, res) => {
   try {
     const { base } = req.params;
     const rates = await getAllRates(base.toUpperCase());
-    
+
     res.json({
       base: base.toUpperCase(),
       rates,
@@ -54,7 +55,7 @@ router.get('/rates/:base', async (req, res) => {
 router.post('/convert', async (req, res) => {
   try {
     const { amount, from, to } = req.body;
-    
+
     if (!amount || !from || !to) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
@@ -64,7 +65,7 @@ router.post('/convert', async (req, res) => {
       from.toUpperCase(),
       to.toUpperCase()
     );
-    
+
     res.json({
       original: {
         amount: parseFloat(amount),
@@ -76,7 +77,7 @@ router.post('/convert', async (req, res) => {
         currency: to.toUpperCase(),
         formatted: formatCurrency(convertedAmount, to.toUpperCase())
       },
-      rate
+      rate: await getExchangeRate(from.toUpperCase(), to.toUpperCase())
     });
   } catch (error) {
     console.error('Error converting currency:', error);
@@ -136,4 +137,3 @@ router.put('/user/preference', authenticateToken, async (req, res) => {
 });
 
 export default router;
-
