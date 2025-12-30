@@ -63,7 +63,7 @@ const Register = () => {
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl text-center">{t('auth.register')}</CardTitle>
             <CardDescription className="text-center">
-              Create a new account to start managing your finances
+              {t('auth.createAccountDescription')}
             </CardDescription>
           </CardHeader>
           <CardContent>

@@ -57,7 +57,7 @@ const Login = () => {
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl text-center">{t('auth.login')}</CardTitle>
             <CardDescription className="text-center">
-              Enter your credentials to access your account
+              {t('auth.enterCredentials')}
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4">

@@ -43,6 +43,10 @@
     "resetPassword": "Reset Password",
     "sendResetLink": "Send Reset Link",
     "backToLogin": "Back to Login",
+    "loginDescription": "Finance Manager",
+    "registerDescription": "Finance Manager",
+    "enterCredentials": "Enter your credentials to access your account",
+    "createAccountDescription": "Create a new account to start managing your finances",
     "newPassword": "New Password",
     "resetPasswordButton": "Reset Password"
   },

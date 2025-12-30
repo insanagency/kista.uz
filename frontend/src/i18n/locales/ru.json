@@ -41,6 +41,10 @@
     "resetPassword": "Сбросить пароль",
     "sendResetLink": "Отправить ссылку",
     "backToLogin": "Вернуться к входу",
+    "loginDescription": "Финансовый менеджер",
+    "registerDescription": "Финансовый менеджер",
+    "enterCredentials": "Введите учетные данные для входа в аккаунт",
+    "createAccountDescription": "Создайте новый аккаунт, чтобы начать управлять финансами",
     "newPassword": "Новый пароль",
     "resetPasswordButton": "Сбросить пароль"
   },
