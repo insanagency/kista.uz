@@ -216,6 +216,8 @@
     "delete": "Delete",
     "edit": "Edit",
     "create": "Create",
+    "add": "Add",
+    "selectCategory": "Select Category",
     "close": "Close",
     "search": "Search",
     "filter": "Filter",
