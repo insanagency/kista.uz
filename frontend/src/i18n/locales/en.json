@@ -64,6 +64,7 @@
     "failedToLoad": "Failed to load dashboard data",
     "thisMonth": "This Month",
     "last30Days": "Last 30 Days",
+    "fromLastMonth": "from last month",
     "allTime": "All Time",
     "weeklyIncome": "Weekly Income",
     "weeklyExpense": "Weekly Expense",
