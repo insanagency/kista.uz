@@ -2,7 +2,8 @@
   "app": {
     "name": "AuroraLedger",
     "tagline": "Управляйте своими финансами легко",
-    "description": "Современное управление личными финансами"
+    "description": "Современное управление личными финансами",
+    "financeManager": "Финансовый менеджер"
   },
   "nav": {
     "dashboard": "Панель",
@@ -14,7 +15,9 @@
     "logout": "Выйти",
     "profile": "Профиль",
     "admin": "Admin",
-    "goals": "Цели Сбережений"
+    "goals": "Цели Сбережений",
+    "overview": "Обзор",
+    "management": "Управление"
   },
   "auth": {
     "login": "Войти",
@@ -43,6 +46,7 @@
   },
   "dashboard": {
     "title": "Панель",
+    "overview": "Финансовый обзор на {{date}}",
     "overviewFor": "Обзор за",
     "balance": "Баланс",
     "income": "Доход",
@@ -56,6 +60,7 @@
     "failedToLoad": "Не удалось загрузить данные панели",
     "thisMonth": "Этот месяц",
     "last30Days": "Последние 30 дней",
+    "fromLastMonth": "с прошлого месяца",
     "allTime": "Все время",
     "savings": "Сбережения",
     "netWorth": "Чистые активы",
@@ -186,6 +191,7 @@
   "reports": {
     "title": "Отчеты и аналитика",
     "exportCSV": "Экспорт CSV",
+    "exportPDF": "Экспорт PDF",
     "dateRange": "Диапазон дат",
     "startDate": "Дата начала",
     "endDate": "Дата окончания",
@@ -212,6 +218,8 @@
     "delete": "Удалить",
     "edit": "Редактировать",
     "create": "Создать",
+    "add": "Добавить",
+    "selectCategory": "Выберите категорию",
     "close": "Закрыть",
     "search": "Поиск",
     "filter": "Фильтр",
@@ -269,6 +277,8 @@
   "profile": {
     "title": "Настройки профиля",
     "subtitle": "Управление настройками учетной записи и предпочтениями",
+    "updateDetailsDescription": "Обновите свои личные данные здесь.",
+    "secureAccountDescription": "Управляйте безопасностью своей учетной записи.",
     "personalInfo": "Личная информация",
     "fullName": "Полное имя",
     "fullNamePlaceholder": "Введите ваше полное имя",
