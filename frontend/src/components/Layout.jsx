@@ -119,7 +119,7 @@ const Layout = () => {
 
       {/* User Footer */}
       {/* User Footer */}
-      <div className="p-4 border-t bg-muted/20">
+      <div className="p-4 bg-muted/20">
         <NavLink
           to="/profile"
           onClick={() => setOpen(false)}
@@ -134,7 +134,7 @@ const Layout = () => {
           </div>
         </NavLink>
 
-        <div className="space-y-2 w-full mt-2 border-t pt-2">
+        <div className="space-y-2 w-full mt-2 pt-2">
           <div className="flex items-center gap-2">
             <LanguageSelector className="flex-1" />
             <ThemeToggle className="w-9 h-9" />
@@ -142,11 +142,11 @@ const Layout = () => {
           <CurrencySelector />
         </div>
 
-        <div className="mt-2 space-y-2 pt-2 border-t">
+        <div className="mt-2 space-y-2 pt-2">
           <Button
             variant="ghost"
             size="sm"
-            className="w-full justify-start gap-2 h-9 font-normal text-destructive hover:text-destructive hover:bg-destructive/10"
+            className="w-full justify-start gap-2 h-9 font-medium text-destructive hover:text-destructive hover:bg-destructive/10"
             onClick={() => {
               logout();
               setOpen(false);
