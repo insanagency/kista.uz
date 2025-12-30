@@ -210,11 +210,7 @@ const Dashboard = () => {
             </button>
           </div>
 
-          <Button asChild size="sm" className="hidden sm:flex">
-            <Link to="/transactions">
-              <Plus className="mr-2 h-4 w-4" /> {t('transactions.addTransaction')}
-            </Link>
-          </Button>
+
         </div>
       </div>
 
