@@ -199,6 +199,15 @@ const Dashboard = () => {
             >
               {t('dashboard.last30Days')}
             </button>
+            <button
+              onClick={() => setViewMode('all')}
+              className={cn(
+                "px-3 py-1.5 text-sm font-medium rounded-md transition-all",
+                viewMode === 'all' ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              {t('dashboard.allTime')}
+            </button>
           </div>
 
           <Button asChild size="sm" className="hidden sm:flex">
