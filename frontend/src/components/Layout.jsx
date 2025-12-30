@@ -136,7 +136,7 @@ const Layout = () => {
         <div className="space-y-2 w-full mt-2 border-t pt-2">
           <div className="flex items-center gap-2">
             <LanguageSelector className="flex-1" />
-            <ThemeToggle showLabel={false} className="w-auto px-2 justify-center" />
+            <ThemeToggle className="w-9 h-9" />
           </div>
           <CurrencySelector />
         </div>
