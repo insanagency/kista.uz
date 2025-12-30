@@ -51,14 +51,9 @@ const Layout = () => {
       {/* Brand Header */}
       <div className="p-6 pb-2">
         <div className="flex items-center gap-3">
-          <div className="h-9 w-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold shadow-sm">
-            A
-          </div>
           <div>
-            <h1 className="text-lg font-bold tracking-tight leading-none">
-              {t('app.name')}
-            </h1>
-            <p className="text-xs text-muted-foreground mt-0.5">{t('app.financeManager')}</p>
+            <img src="/soqqam-logo.png" alt="Soqqam.uz" className="h-8 object-contain mb-1" />
+            <p className="text-xs text-muted-foreground ml-1">{t('app.financeManager')}</p>
           </div>
         </div>
       </div>
