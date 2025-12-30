@@ -1,6 +1,6 @@
 {
     "app": {
-        "name": "AuroraLedger",
+        "name": "Soqqam.uz",
         "tagline": "Moliyangizni oson boshqaring",
         "description": "Zamonaviy shaxsiy moliyani boshqarish tizimi",
         "financeManager": "Moliya menejeri"
@@ -269,8 +269,7 @@
         "checkInput": "Iltimos, ma'lumotlarni tekshiring",
         "fillAllFields": "Iltimos, barcha majburiy maydonlarni to'ldiring",
         "selectCategory": "Kategoriyani tanlang",
-        "export": "Eksport",
-        "close": "Yopish"
+        "export": "Eksport"
     },
     "recurring": {
         "title": "Doimiy takrorlanuvchi to'lovlar",

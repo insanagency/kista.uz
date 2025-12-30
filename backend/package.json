@@ -1,5 +1,5 @@
 {
-  "name": "aurora-ledger-backend",
+  "name": "soqqam-uz-backend",
   "version": "1.0.0",
   "description": "Backend for AuroraLedger - Personal Finance Management",
   "main": "server.js",
