@@ -190,6 +190,7 @@
   "reports": {
     "title": "Reports & Analytics",
     "exportCSV": "Export CSV",
+    "exportPDF": "Export PDF",
     "dateRange": "Date Range",
     "startDate": "Start Date",
     "endDate": "End Date",
