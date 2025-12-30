@@ -47,7 +47,7 @@ const Layout = () => {
   ];
 
   const SidebarContent = () => (
-    <div className="flex h-full flex-col bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60 border-r-4 border-red-500">
+    <div className="flex h-full flex-col bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60 border-r">
       {/* Brand Header */}
       <div className="p-6 pb-2">
         <div className="flex items-center gap-3">
@@ -119,7 +119,7 @@ const Layout = () => {
 
       {/* User Footer */}
       {/* User Footer */}
-      <div className="p-4 bg-transparent border-t-0 border-none">
+      <div className="p-4 bg-muted/20 border-t-0 border-none">
         <NavLink
           to="/profile"
           onClick={() => setOpen(false)}
