@@ -119,7 +119,7 @@ const Layout = () => {
 
       {/* User Footer */}
       {/* User Footer */}
-      <div className="p-4 bg-muted/20">
+      <div className="p-4 bg-muted/20 border-t-0 border-none">
         <NavLink
           to="/profile"
           onClick={() => setOpen(false)}
@@ -144,9 +144,9 @@ const Layout = () => {
 
         <div className="mt-2 space-y-2 pt-2">
           <Button
-            variant="ghost"
+            variant="secondary"
             size="sm"
-            className="w-full justify-start gap-2 h-9 font-medium text-destructive hover:text-destructive hover:bg-destructive/10"
+            className="w-full justify-start gap-2 h-9 font-medium text-destructive hover:text-destructive hover:bg-destructive/10 border border-destructive/10"
             onClick={() => {
               logout();
               setOpen(false);
