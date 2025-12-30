@@ -49,10 +49,8 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4 transition-colors">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-primary">
-            {t('app.name')}
-          </h1>
-          <p className="mt-2 text-muted-foreground">{t('app.tagline')}</p>
+          <img src="/soqqam-logo.svg" alt="Soqqam.uz" className="h-8 mx-auto mb-2" />
+          <p className="text-muted-foreground">{t('auth.loginDescription')}</p>
         </div>
 
         <Card>
