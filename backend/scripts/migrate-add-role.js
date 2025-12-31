@@ -1,31 +1,24 @@
-
 import pool from '../config/database.js';
 
-const addRoleColumn = async () => {
-  const client = await pool.connect();
-
+const migrate = async () => {
   try {
     console.log('🔄 Adding role column to users table...');
 
-    await client.query('BEGIN');
-
-    // Add role column to users
-    await client.query(`
-      ALTER TABLE users 
-      ADD COLUMN IF NOT EXISTS role VARCHAR(20) DEFAULT 'user';
+    await pool.query(`
+      DO $$ 
+      BEGIN 
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='users' AND column_name='role') THEN 
+          ALTER TABLE users ADD COLUMN role VARCHAR(20) DEFAULT 'user'; 
+        END IF; 
+      END $$;
     `);
-    console.log('✅ Added role column to users');
 
-    await client.query('COMMIT');
-    console.log('🎉 Role column migration completed!');
+    console.log('✅ Role column added successfully');
+    process.exit(0);
   } catch (error) {
-    await client.query('ROLLBACK');
     console.error('❌ Migration failed:', error);
-    throw error;
-  } finally {
-    client.release();
-    await pool.end();
+    process.exit(1);
   }
 };
 
-addRoleColumn().catch(console.error);
+migrate();

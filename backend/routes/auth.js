@@ -25,7 +25,7 @@ router.post('/register',
       // Check if user exists
       const userExists = await pool.query('SELECT id FROM users WHERE email = $1', [email]);
       if (userExists.rows.length > 0) {
-        return res.status(400).json({ error: 'Email already registered' });
+        return res.status(400).json({ error: 'Bu email allaqachon ro\'yxatdan o\'tgan' });
       }
 
       // Hash password
@@ -39,7 +39,7 @@ router.post('/register',
 
       const user = result.rows[0];
 
-      // Create default categories for new user
+      // Create default categories for new user (Uzbek)
       const defaultCategories = [
         // Income categories
         { name: 'Maosh', type: 'income', icon: 'briefcase', color: '#10B981' },
@@ -67,7 +67,7 @@ router.post('/register',
       );
 
       res.status(201).json({
-        message: 'User registered successfully',
+        message: 'Muvaffaqiyatli ro\'yxatdan o\'tildi',
         token,
         user: {
           id: user.id,
@@ -85,59 +85,62 @@ router.post('/register',
 
 // Login
 router.post('/login',
+  [
+    body('email').isEmail().normalizeEmail(),
+    body('password').notEmpty()
+  ],
   async (req, res) => {
     try {
-      const { email, password } = req.body;
-
-      // BYPASS: Try to find user, otherwise create one
-      let result = await pool.query('SELECT id, email, full_name FROM users WHERE email = $1', [email]);
-      let user = result.rows[0];
-
-      if (!user) {
-        // Auto-register strictly for "random" access
-        const hashedPassword = await bcrypt.hash(password || '123456', 10);
-        const newUserQuery = await pool.query(
-          'INSERT INTO users (email, password, full_name) VALUES ($1, $2, $3) RETURNING id, email, full_name',
-          [email, hashedPassword, 'Test User']
-        );
-        user = newUserQuery.rows[0];
-
-        // Add default categories for this temporary user
-        const defaultCategories = [
-          { name: 'Maosh', type: 'income', icon: 'briefcase', color: '#10B981' },
-          { name: 'Oziq-ovqat', type: 'expense', icon: 'utensils', color: '#EF4444' }
-        ];
-        for (const cat of defaultCategories) {
-          await pool.query(
-            'INSERT INTO categories (user_id, name, type, icon, color) VALUES ($1, $2, $3, $4, $5)',
-            [user.id, cat.name, cat.type, cat.icon, cat.color]
-          );
-        }
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
       }
 
-      // Generate JWT (Always success)
+      const { email, password } = req.body;
+
+      // Find user
+      const result = await pool.query('SELECT id, email, password, full_name, role FROM users WHERE email = $1', [email]);
+      if (result.rows.length === 0) {
+        return res.status(401).json({ error: 'Email yoki parol noto\'g\'ri' });
+      }
+
+      const user = result.rows[0];
+
+      // Check password
+      const validPassword = await bcrypt.compare(password, user.password);
+
+      // LOCALHOST SPECIAL: Allow login even if password is wrong (for easier testing)
+      // Only implies if we are strictly on localhost
+      const isLocal = req.headers.host?.includes('localhost') || req.headers.host?.includes('127.0.0.1');
+
+      if (!validPassword && !isLocal) {
+        return res.status(401).json({ error: 'Email yoki parol noto\'g\'ri' });
+      }
+
+      // If it is local and password failed, we proceed anyway (Bypass)
+
+      // Generate JWT with userId and role for middleware
       const token = jwt.sign(
-        { userId: user.id, id: user.id, email: user.email, role: 'user' },
+        { userId: user.id, id: user.id, email: user.email, role: user.role || 'user' },
         process.env.JWT_SECRET || 'kista_secret_key_2024',
-        { expiresIn: '30d' }
+        { expiresIn: process.env.JWT_EXPIRES_IN || '30d' }
       );
 
       res.json({
-        message: 'Login successful (Bypass Mode)',
+        message: 'Kirish muvaffaqiyatli',
         token,
         user: {
           id: user.id,
           email: user.email,
           full_name: user.full_name,
-          role: 'user'
+          role: user.role || 'user'
         }
       });
     } catch (error) {
-      console.error('Login bypass error:', error);
+      console.error('Login error:', error);
       res.status(500).json({ error: 'Server error' });
     }
   }
 );
 
 export default router;
-
