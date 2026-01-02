@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import api from '../lib/api';
-import { Plus, Pencil, Trash2, FolderOpen } from 'lucide-react';
+import { Plus, FolderOpen } from 'lucide-react';
 import { toast } from 'sonner';
 import CategoryModal from '../components/CategoryModal';
 import { CardSkeleton } from '../components/LoadingSkeleton';
@@ -168,14 +168,12 @@ const Categories = () => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem onClick={() => handleEdit(category)}>
-                        <Pencil className="mr-2 h-4 w-4" />
                         <span>{t('categories.edit')}</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => handleDelete(category.id)}
                         className="text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-900/10"
                       >
-                        <Trash2 className="mr-2 h-4 w-4" />
                         <span>{t('categories.delete')}</span>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
