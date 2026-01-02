@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCurrency } from '../context/CurrencyContext';
+import { SUPPORTED_CURRENCIES } from '../lib/currencies';
 import { Plus } from 'lucide-react';
 import api from '../lib/api';
 import { toast } from 'sonner';
@@ -69,20 +70,7 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
 
   const filteredCategories = categories.filter(cat => cat.type === formData.type);
 
-  const CURRENCIES = [
-    { code: 'UZS', name: 'Uzbekistan Som', symbol: 'so\'m' },
-    { code: 'USD', name: 'US Dollar', symbol: '$' },
-    { code: 'VND', name: 'Vietnamese Dong', symbol: '₫' },
-    { code: 'EUR', name: 'Euro', symbol: '€' },
-    { code: 'JPY', name: 'Japanese Yen', symbol: '¥' },
-    { code: 'GBP', name: 'British Pound', symbol: '£' },
-    { code: 'CNY', name: 'Chinese Yuan', symbol: '¥' },
-    { code: 'KRW', name: 'Korean Won', symbol: '₩' },
-    { code: 'THB', name: 'Thai Baht', symbol: '฿' },
-    { code: 'SGD', name: 'Singapore Dollar', symbol: 'S$' },
-    { code: 'AUD', name: 'Australian Dollar', symbol: 'A$' },
-    { code: 'CAD', name: 'Canadian Dollar', symbol: 'C$' },
-  ];
+  const CURRENCIES = SUPPORTED_CURRENCIES;
 
   const validateForm = () => {
     const amount = parseFloat(formData.amount);

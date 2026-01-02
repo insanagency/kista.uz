@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import { format } from 'date-fns';
 import api from '../lib/api';
 import { useCurrency } from '../context/CurrencyContext';
+import { SUPPORTED_CURRENCIES } from '../lib/currencies';
 import { Repeat, Plus, Edit2, Trash2, Calendar, AlertCircle } from 'lucide-react';
 import { ListSkeleton } from '../components/LoadingSkeleton';
 
@@ -360,10 +361,11 @@ const Recurring = () => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="USD">USD</SelectItem>
-                    <SelectItem value="EUR">EUR</SelectItem>
-                    <SelectItem value="UZS">UZS</SelectItem>
-                    {/* Add more currencies as needed */}
+                    <SelectContent>
+                      {SUPPORTED_CURRENCIES.map(curr => (
+                        <SelectItem key={curr.code} value={curr.code}>{curr.code}</SelectItem>
+                      ))}
+                    </SelectContent>
                   </SelectContent>
                 </Select>
               </div>

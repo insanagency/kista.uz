@@ -28,7 +28,8 @@ import { DatePicker } from "@/components/ui/date-picker";
 
 const ICONS = ['🎯', '🏠', '🚗', '✈️', '💍', '📚', '💰', '🎓', '🏖️', '🎮', '📱', '⌚', '🎸', '🏋️', '🎨'];
 const PRIORITIES = ['low', 'medium', 'high'];
-const SUPPORTED_CURRENCIES = ['UZS', 'USD', 'EUR', 'GBP', 'JPY', 'CNY', 'KRW', 'VND', 'THB', 'SGD', 'MYR', 'IDR', 'PHP', 'INR', 'AUD', 'CAD'];
+import { SUPPORTED_CURRENCIES as CURRENCIES_LIST } from '../lib/currencies';
+const SUPPORTED_CURRENCIES = CURRENCIES_LIST.map(c => c.code);
 
 const GoalModal = ({ goal, onClose }) => {
   const { t } = useTranslation();
