@@ -229,10 +229,7 @@ const Dashboard = () => {
             <div className={`text-3xl font-bold break-all ${balance >= 0 ? 'text-blue-600 dark:text-blue-400' : 'text-orange-600 dark:text-orange-400'}`}>
               {formatCurrency(balance)}
             </div>
-            <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
-              <TrendingUp className="h-3 w-3 text-blue-500" />
-              +20.1% {t('dashboard.fromLastMonth')}
-            </p>
+
           </CardContent>
         </Card>
 
@@ -247,10 +244,7 @@ const Dashboard = () => {
             <div className="text-3xl font-bold text-green-600 dark:text-green-500 break-all">
               {formatCurrency(income)}
             </div>
-            <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
-              <TrendingUp className="h-3 w-3 text-green-500" />
-              +10.5% {t('dashboard.fromLastMonth')}
-            </p>
+
           </CardContent>
         </Card>
 
@@ -265,10 +259,7 @@ const Dashboard = () => {
             <div className="text-3xl font-bold text-red-600 dark:text-red-500 break-all">
               {formatCurrency(expense)}
             </div>
-            <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
-              <TrendingDown className="h-3 w-3 text-red-500" />
-              -4% {t('dashboard.fromLastMonth')}
-            </p>
+
           </CardContent>
         </Card>
       </div>
@@ -282,7 +273,7 @@ const Dashboard = () => {
           <CardContent>
             {expenseByCategoryConverted.length > 0 ? (
               <>
-                <div className="w-full h-[220px]">
+                <div className="w-full h-[180px]">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
@@ -291,8 +282,8 @@ const Dashboard = () => {
                         nameKey="category_name"
                         cx="50%"
                         cy="50%"
-                        outerRadius={90}
-                        innerRadius={50}
+                        outerRadius={70}
+                        innerRadius={45}
                         paddingAngle={2}
                         label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                         labelLine={false}

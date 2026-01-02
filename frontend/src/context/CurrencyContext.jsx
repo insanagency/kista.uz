@@ -115,19 +115,25 @@ export function CurrencyProvider({ children }) {
     // Currencies without decimal places
     const noDecimalCurrencies = ['VND', 'JPY', 'KRW', 'IDR'];
 
+    const isNegative = amount < 0;
+    const absAmount = Math.abs(amount);
+
     const formattedAmount = new Intl.NumberFormat('en-US', {
       minimumFractionDigits: noDecimalCurrencies.includes(currencyCode) ? 0 : 2,
       maximumFractionDigits: noDecimalCurrencies.includes(currencyCode) ? 0 : 2
-    }).format(Math.abs(amount));
+    }).format(absAmount);
 
     // Currencies that put symbol after amount
     const symbolAfterCurrencies = ['VND', 'JPY', 'KRW', 'IDR', 'SEK', 'NOK', 'DKK', 'PLN', 'UZS'];
 
+    let result;
     if (symbolAfterCurrencies.includes(currencyCode)) {
-      return `${formattedAmount} ${symbol}`;
+      result = `${formattedAmount} ${symbol}`;
+    } else {
+      result = `${symbol}${formattedAmount}`;
     }
 
-    return `${symbol}${formattedAmount}`;
+    return isNegative ? `-${result}` : result;
   };
 
   // Convert and format amount to user's display currency
