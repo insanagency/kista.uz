@@ -147,6 +147,8 @@
         "title": "Kategoriyalar",
         "addCategory": "Kategoriya qo'shish",
         "editCategory": "Kategoriyani tahrirlash",
+        "edit": "Tahrirlash",
+        "delete": "O'chirish",
         "totalCategories": "Jami kategoriyalar",
         "incomeCategories": "Daromad kategoriyalari",
         "expenseCategories": "Xarajat kategoriyalari",
