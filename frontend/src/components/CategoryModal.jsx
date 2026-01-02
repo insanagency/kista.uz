@@ -15,6 +15,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const COLORS = [
   '#EF4444', '#F59E0B', '#10B981', '#3B82F6', '#8B5CF6',
@@ -88,26 +89,16 @@ const CategoryModal = ({ category, onClose }) => {
 
           <div className="space-y-2">
             <Label>{t('categories.type')}</Label>
-            <div className="flex gap-2">
-              <Button
-                type="button"
-                variant={formData.type === 'income' ? 'default' : 'outline'}
-                onClick={() => setFormData({ ...formData, type: 'income' })}
-                disabled={!!category}
-                className={`flex-1 ${formData.type === 'income' ? 'bg-green-600 hover:bg-green-700' : ''}`}
-              >
-                {t('categories.income')}
-              </Button>
-              <Button
-                type="button"
-                variant={formData.type === 'expense' ? 'default' : 'outline'}
-                onClick={() => setFormData({ ...formData, type: 'expense' })}
-                disabled={!!category}
-                className={`flex-1 ${formData.type === 'expense' ? 'bg-red-600 hover:bg-red-700' : ''}`}
-              >
-                {t('categories.expense')}
-              </Button>
-            </div>
+            <Tabs
+              value={formData.type}
+              onValueChange={(value) => setFormData({ ...formData, type: value })}
+              className="w-full"
+            >
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="income" disabled={!!category}>{t('categories.income')}</TabsTrigger>
+                <TabsTrigger value="expense" disabled={!!category}>{t('categories.expense')}</TabsTrigger>
+              </TabsList>
+            </Tabs>
             {category && (
               <p className="text-xs text-muted-foreground">{t('categories.typeCannotChange')}</p>
             )}

@@ -10,6 +10,7 @@ import { CardSkeleton } from '../components/LoadingSkeleton';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Categories = () => {
   const { t } = useTranslation();
@@ -105,32 +106,13 @@ const Categories = () => {
       </div>
 
       {/* Filter */}
-      <div className="flex gap-2 p-1 bg-muted rounded-lg w-fit">
-        <Button
-          variant={filter === 'all' ? 'secondary' : 'ghost'}
-          size="sm"
-          onClick={() => setFilter('all')}
-          className={filter === 'all' ? 'bg-background shadow-sm hover:bg-background' : ''}
-        >
-          {t('categories.all')} ({categories.length})
-        </Button>
-        <Button
-          variant={filter === 'income' ? 'secondary' : 'ghost'}
-          size="sm"
-          onClick={() => setFilter('income')}
-          className={filter === 'income' ? 'bg-background shadow-sm hover:bg-background' : ''}
-        >
-          {t('categories.income')} ({incomeCount})
-        </Button>
-        <Button
-          variant={filter === 'expense' ? 'secondary' : 'ghost'}
-          size="sm"
-          onClick={() => setFilter('expense')}
-          className={filter === 'expense' ? 'bg-background shadow-sm hover:bg-background' : ''}
-        >
-          {t('categories.expense')} ({expenseCount})
-        </Button>
-      </div>
+      <Tabs defaultValue="all" value={filter} onValueChange={setFilter} className="w-full">
+        <TabsList className="grid w-full sm:w-[400px] grid-cols-3">
+          <TabsTrigger value="all">{t('categories.all')} ({categories.length})</TabsTrigger>
+          <TabsTrigger value="income">{t('categories.income')} ({incomeCount})</TabsTrigger>
+          <TabsTrigger value="expense">{t('categories.expense')} ({expenseCount})</TabsTrigger>
+        </TabsList>
+      </Tabs>
 
       {/* Categories Grid */}
       <div className="space-y-4">
