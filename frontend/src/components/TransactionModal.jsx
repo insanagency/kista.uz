@@ -10,6 +10,7 @@ import { format } from 'date-fns';
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { MoneyInput } from "@/components/ui/money-input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import {
@@ -194,9 +195,7 @@ const TransactionModal = ({ transaction, categories: initialCategories, onClose 
           <div className="grid grid-cols-3 gap-3">
             <div className="col-span-2 space-y-2">
               <Label>{t('transactions.amount')}</Label>
-              <Input
-                type="number"
-                step="any"
+              <MoneyInput
                 required
                 value={formData.amount}
                 onChange={(e) => setFormData({ ...formData, amount: e.target.value })}

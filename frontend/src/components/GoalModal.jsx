@@ -9,6 +9,7 @@ import { format } from "date-fns";
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { MoneyInput } from "@/components/ui/money-input"
 import { Label } from "@/components/ui/label"
 import {
   Dialog,
@@ -95,10 +96,7 @@ const GoalModal = ({ goal, onClose }) => {
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>{t('goals.targetAmount')} *</Label>
-              <Input
-                type="number"
-                step="0.01"
-                min="0.01"
+              <MoneyInput
                 value={formData.target_amount}
                 onChange={(e) => setFormData({ ...formData, target_amount: e.target.value })}
                 required
