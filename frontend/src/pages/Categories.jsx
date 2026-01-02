@@ -11,6 +11,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { MoreHorizontal } from "lucide-react";
 
 const Categories = () => {
   const { t } = useTranslation();
@@ -125,22 +133,23 @@ const Categories = () => {
             {filteredCategories.map((category) => (
               <Card
                 key={category.id}
-                className="hover:shadow-md transition-all border-l-4"
-                style={{ borderLeftColor: category.color }}
+                className="hover:shadow-md transition-all"
               >
-                <CardContent className="p-4 flex items-start justify-between gap-3">
+                <CardContent className="p-4 flex items-center justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <div
-                      className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold shadow-sm"
-                      style={{ backgroundColor: category.color }}
-                    >
-                      {category.name.charAt(0).toUpperCase()}
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-base truncate max-w-[120px]">{category.name}</h3>
+                    <Avatar className="h-10 w-10 border">
+                      <AvatarFallback
+                        style={{ backgroundColor: category.color, color: 'white' }}
+                        className="font-bold"
+                      >
+                        {category.name.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col">
+                      <h3 className="font-semibold text-sm truncate max-w-[120px]">{category.name}</h3>
                       <Badge
                         variant="secondary"
-                        className={`mt-1 text-xs font-normal ${category.type === 'income'
+                        className={`w-fit mt-1 text-[10px] h-5 px-1.5 font-normal ${category.type === 'income'
                           ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
                           : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
                           }`}
@@ -149,24 +158,28 @@ const Categories = () => {
                       </Badge>
                     </div>
                   </div>
-                  <div className="flex gap-1">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 text-muted-foreground hover:text-foreground"
-                      onClick={() => handleEdit(category)}
-                    >
-                      <Pencil size={14} />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-                      onClick={() => handleDelete(category.id)}
-                    >
-                      <Trash2 size={14} />
-                    </Button>
-                  </div>
+
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="h-8 w-8 p-0">
+                        <span className="sr-only">Open menu</span>
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => handleEdit(category)}>
+                        <Pencil className="mr-2 h-4 w-4" />
+                        <span>{t('categories.edit')}</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => handleDelete(category.id)}
+                        className="text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-900/10"
+                      >
+                        <Trash2 className="mr-2 h-4 w-4" />
+                        <span>{t('categories.delete')}</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </CardContent>
               </Card>
             ))}
